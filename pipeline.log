@@ -1,0 +1,226 @@
+2025-09-20 20:01:51,361 - INFO - Starting pipeline
+2025-09-20 20:01:51,365 - INFO - Loaded 13 UniProt IDs from C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\uniprot_template.xlsx
+2025-09-20 20:01:51,365 - INFO - Using 12 worker(s) for UniProt processing
+2025-09-20 20:01:51,366 - INFO - Processing Q9H222
+2025-09-20 20:01:51,366 - INFO - Processing Q4W8A3
+2025-09-20 20:01:51,366 - INFO - Processing Q8TCC7
+2025-09-20 20:01:51,367 - INFO - Processing O15245
+2025-09-20 20:01:51,367 - INFO - Processing O15244
+2025-09-20 20:01:51,368 - INFO - Processing Q9Y6L6
+2025-09-20 20:01:51,368 - INFO - Processing Q9NPD5
+2025-09-20 20:01:51,369 - INFO - Processing Q86VL8
+2025-09-20 20:01:51,369 - INFO - Processing P33527
+2025-09-20 20:01:51,370 - INFO - Processing Q92887
+2025-09-20 20:01:51,370 - INFO - Processing O15439
+2025-09-20 20:01:51,371 - INFO - Processing P08183
+2025-09-20 20:01:52,505 - INFO - Downloaded AlphaFold PDB for Q8TCC7 to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_pred\SLC22A8_Q8TCC7\SLC22A8_Q8TCC7_AF-Q8TCC7-F1.pdb
+2025-09-20 20:01:52,506 - WARNING - PDBFixer/OpenMM wheels are unavailable for Python 3.13; use the provided conda environment (python 3.11) or install manually.
+2025-09-20 20:01:52,631 - INFO - Downloaded AlphaFold PDB for Q4W8A3 to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_pred\SLC22A6_Q4W8A3\SLC22A6_Q4W8A3_AF-Q4W8A3-F1.pdb
+2025-09-20 20:01:52,632 - INFO - Downloaded AlphaFold PDB for Q86VL8 to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_pred\SLC47A2_Q86VL8\SLC47A2_Q86VL8_AF-Q86VL8-F1.pdb
+2025-09-20 20:01:52,644 - INFO - Processing P21439
+2025-09-20 20:01:53,549 - INFO - Downloaded PDB 8et9 from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLC22A2_O15244\SLC22A2_O15244_8ET9.pdb
+2025-09-20 20:01:53,670 - INFO - Downloaded PDB 5do7 from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCG5-ABCG8_Q9H222\ABCG5-ABCG8_Q9H222_5DO7.pdb
+2025-09-20 20:01:53,671 - INFO - Downloaded PDB 8et6 from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLC22A1_O15245\SLC22A1_O15245_8ET6.pdb
+2025-09-20 20:01:53,780 - INFO - Downloaded oriented PDB 8hnb from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLCO1B1_Q9Y6L6\SLCO1B1_Q9Y6L6_8HNB.pdb
+2025-09-20 20:01:53,782 - INFO - Downloaded PDB 6c0v from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB1_P08183\ABCB1_P08183_6C0V.pdb
+2025-09-20 20:01:53,828 - INFO - Downloaded oriented PDB 8izq from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC2_Q92887\ABCC2_Q92887_8IZQ.pdb
+2025-09-20 20:01:53,831 - INFO - Downloaded oriented PDB 8bjf from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC4_O15439\ABCC4_O15439_8BJF.pdb
+2025-09-20 20:01:54,075 - INFO - Downloaded oriented PDB 8pg0 from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLCO1B3_Q9NPD5\SLCO1B3_Q9NPD5_8PG0.pdb
+2025-09-20 20:01:54,150 - INFO - Downloaded PDB 6s7p from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB4_P21439\ABCB4_P21439_6S7P.pdb
+2025-09-20 20:01:54,776 - INFO - Downloaded AlphaFold PDB for O15244 to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_pred\SLC22A2_O15244\SLC22A2_O15244_AF-O15244-F1.pdb
+2025-09-20 20:01:55,236 - INFO - Downloaded PDB 8et7 from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLC22A1_O15245\SLC22A1_O15245_8ET7.pdb
+2025-09-20 20:01:55,511 - INFO - Downloaded PDB 7jr7 from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCG5-ABCG8_Q9H222\ABCG5-ABCG8_Q9H222_7JR7.pdb
+2025-09-20 20:01:55,722 - INFO - Downloaded oriented PDB 8bwo from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC4_O15439\ABCC4_O15439_8BWO.pdb
+2025-09-20 20:01:55,723 - INFO - Downloaded oriented PDB 8izr from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC2_Q92887\ABCC2_Q92887_8IZR.pdb
+2025-09-20 20:01:55,880 - INFO - Downloaded PDB 8et8 from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLC22A1_O15245\SLC22A1_O15245_8ET8.pdb
+2025-09-20 20:01:55,958 - INFO - Downloaded oriented PDB 8hnc from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLCO1B1_Q9Y6L6\SLCO1B1_Q9Y6L6_8HNC.pdb
+2025-09-20 20:01:56,030 - INFO - Downloaded PDB 7niu from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB4_P21439\ABCB4_P21439_7NIU.pdb
+2025-09-20 20:01:56,036 - INFO - Downloaded AlphaFold PDB for Q9NPD5 to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_pred\SLCO1B3_Q9NPD5\SLCO1B3_Q9NPD5_AF-Q9NPD5-F1.pdb
+2025-09-20 20:01:56,414 - INFO - Downloaded PDB 6fn1 from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB1_P08183\ABCB1_P08183_6FN1.pdb
+2025-09-20 20:01:56,673 - INFO - Downloaded oriented PDB 8jts from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLC22A1_O15245\SLC22A1_O15245_8JTS.pdb
+2025-09-20 20:01:56,710 - INFO - Downloaded oriented PDB 8bwp from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC4_O15439\ABCC4_O15439_8BWP.pdb
+2025-09-20 20:01:56,858 - INFO - Downloaded oriented PDB 8jx7 from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC2_Q92887\ABCC2_Q92887_8JX7.pdb
+2025-09-20 20:01:57,066 - INFO - Downloaded PDB 7r87 from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCG5-ABCG8_Q9H222\ABCG5-ABCG8_Q9H222_7R87.pdb
+2025-09-20 20:01:57,238 - INFO - Downloaded oriented PDB 8hnd from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLCO1B1_Q9Y6L6\SLCO1B1_Q9Y6L6_8HND.pdb
+2025-09-20 20:01:57,473 - INFO - Downloaded oriented PDB 8jtt from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLC22A1_O15245\SLC22A1_O15245_8JTT.pdb
+2025-09-20 20:01:57,549 - INFO - Downloaded oriented PDB 8bwq from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC4_O15439\ABCC4_O15439_8BWQ.pdb
+2025-09-20 20:01:57,649 - INFO - Downloaded oriented PDB 8jxq from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC2_Q92887\ABCC2_Q92887_8JXQ.pdb
+2025-09-20 20:01:57,845 - INFO - Downloaded PDB 7niv from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB4_P21439\ABCB4_P21439_7NIV.pdb
+2025-09-20 20:01:58,081 - INFO - Downloaded oriented PDB 8hnh from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLCO1B1_Q9Y6L6\SLCO1B1_Q9Y6L6_8HNH.pdb
+2025-09-20 20:01:58,082 - INFO - Downloaded PDB 6fn4 from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB1_P08183\ABCB1_P08183_6FN4.pdb
+2025-09-20 20:01:58,223 - INFO - Downloaded PDB 2cbz from RCSB to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC1_P33527\ABCC1_P33527_2CBZ.pdb
+2025-09-20 20:01:58,309 - INFO - Downloaded oriented PDB 8jtv from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLC22A1_O15245\SLC22A1_O15245_8JTV.pdb
+2025-09-20 20:01:58,462 - INFO - Downloaded PDB 7r88 from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCG5-ABCG8_Q9H222\ABCG5-ABCG8_Q9H222_7R88.pdb
+2025-09-20 20:01:58,468 - INFO - Downloaded oriented PDB 8bwr from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC4_O15439\ABCC4_O15439_8BWR.pdb
+2025-09-20 20:01:58,976 - INFO - Downloaded oriented PDB 8k6l from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLCO1B1_Q9Y6L6\SLCO1B1_Q9Y6L6_8K6L.pdb
+2025-09-20 20:01:58,980 - INFO - Downloaded oriented PDB 8jxu from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC2_Q92887\ABCC2_Q92887_8JXU.pdb
+2025-09-20 20:01:59,078 - INFO - Downloaded oriented PDB 8jtw from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLC22A1_O15245\SLC22A1_O15245_8JTW.pdb
+2025-09-20 20:01:59,114 - INFO - Downloaded PDB 6qex from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB1_P08183\ABCB1_P08183_6QEX.pdb
+2025-09-20 20:01:59,382 - INFO - Downloaded PDB 7niw from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB4_P21439\ABCB4_P21439_7NIW.pdb
+2025-09-20 20:01:59,585 - INFO - Downloaded PDB 8i4a from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC4_O15439\ABCC4_O15439_8I4A.pdb
+2025-09-20 20:01:59,725 - INFO - Downloaded PDB 7r89 from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCG5-ABCG8_Q9H222\ABCG5-ABCG8_Q9H222_7R89.pdb
+2025-09-20 20:01:59,876 - INFO - Downloaded oriented PDB 8phw from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLCO1B1_Q9Y6L6\SLCO1B1_Q9Y6L6_8PHW.pdb
+2025-09-20 20:01:59,945 - INFO - Downloaded oriented PDB 8jtx from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLC22A1_O15245\SLC22A1_O15245_8JTX.pdb
+2025-09-20 20:02:00,256 - INFO - Downloaded PDB 7a65 from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB1_P08183\ABCB1_P08183_7A65.pdb
+2025-09-20 20:02:00,452 - INFO - Downloaded oriented PDB 8jy4 from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC2_Q92887\ABCC2_Q92887_8JY4.pdb
+2025-09-20 20:02:00,558 - INFO - Downloaded AlphaFold PDB for P21439 to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_pred\ABCB4_P21439\ABCB4_P21439_AF-P21439-F1.pdb
+2025-09-20 20:02:00,680 - INFO - Downloaded PDB 7r8a from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCG5-ABCG8_Q9H222\ABCG5-ABCG8_Q9H222_7R8A.pdb
+2025-09-20 20:02:00,766 - INFO - Downloaded PDB 8i4b from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC4_O15439\ABCC4_O15439_8I4B.pdb
+2025-09-20 20:02:00,897 - INFO - Downloaded AlphaFold PDB for Q9Y6L6 to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_pred\SLCO1B1_Q9Y6L6\SLCO1B1_Q9Y6L6_AF-Q9Y6L6-F1.pdb
+2025-09-20 20:02:01,228 - INFO - Downloaded oriented PDB 8jy5 from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC2_Q92887\ABCC2_Q92887_8JY5.pdb
+2025-09-20 20:02:01,424 - INFO - Downloaded oriented PDB 8jty from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLC22A1_O15245\SLC22A1_O15245_8JTY.pdb
+2025-09-20 20:02:01,600 - INFO - Downloaded PDB 7a69 from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB1_P08183\ABCB1_P08183_7A69.pdb
+2025-09-20 20:02:01,752 - INFO - Downloaded PDB 8i4c from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC4_O15439\ABCC4_O15439_8I4C.pdb
+2025-09-20 20:02:01,860 - INFO - Downloaded PDB 7r8b from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCG5-ABCG8_Q9H222\ABCG5-ABCG8_Q9H222_7R8B.pdb
+2025-09-20 20:02:02,158 - INFO - Downloaded oriented PDB 9br2 from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC2_Q92887\ABCC2_Q92887_9BR2.pdb
+2025-09-20 20:02:02,350 - INFO - Downloaded oriented PDB 8jtz from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLC22A1_O15245\SLC22A1_O15245_8JTZ.pdb
+2025-09-20 20:02:02,616 - INFO - Downloaded oriented PDB 8iz7 from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC4_O15439\ABCC4_O15439_8IZ7.pdb
+2025-09-20 20:02:02,721 - INFO - Downloaded PDB 4c3z from RCSB to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC1_P33527\ABCC1_P33527_4C3Z.pdb
+2025-09-20 20:02:02,884 - INFO - Downloaded PDB 7a6c from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB1_P08183\ABCB1_P08183_7A6C.pdb
+2025-09-20 20:02:02,987 - INFO - Downloaded PDB 8cub from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCG5-ABCG8_Q9H222\ABCG5-ABCG8_Q9H222_8CUB.pdb
+2025-09-20 20:02:03,188 - INFO - Downloaded oriented PDB 8ju0 from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLC22A1_O15245\SLC22A1_O15245_8JU0.pdb
+2025-09-20 20:02:03,412 - INFO - Downloaded oriented PDB 8iz8 from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC4_O15439\ABCC4_O15439_8IZ8.pdb
+2025-09-20 20:02:03,492 - INFO - Downloaded oriented PDB 9buk from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC2_Q92887\ABCC2_Q92887_9BUK.pdb
+2025-09-20 20:02:03,580 - INFO - Downloaded oriented PDB 8vt4 from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC1_P33527\ABCC1_P33527_8VT4.pdb
+2025-09-20 20:02:03,811 - INFO - Downloaded AlphaFold PDB for Q9H222 to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_pred\ABCG5-ABCG8_Q9H222\ABCG5-ABCG8_Q9H222_AF-Q9H222-F1.pdb
+2025-09-20 20:02:03,867 - INFO - Downloaded oriented PDB 8sc1 from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLC22A1_O15245\SLC22A1_O15245_8SC1.pdb
+2025-09-20 20:02:04,097 - INFO - Downloaded PDB 7a6e from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB1_P08183\ABCB1_P08183_7A6E.pdb
+2025-09-20 20:02:04,123 - INFO - Downloaded AlphaFold PDB for Q9H221 to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_pred\ABCG5-ABCG8_Q9H222\ABCG5-ABCG8_Q9H221_AF-Q9H221-F1.pdb
+2025-09-20 20:02:04,220 - INFO - Downloaded oriented PDB 8iz9 from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC4_O15439\ABCC4_O15439_8IZ9.pdb
+2025-09-20 20:02:04,315 - INFO - Downloaded oriented PDB 9c12 from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC2_Q92887\ABCC2_Q92887_9C12.pdb
+2025-09-20 20:02:04,415 - INFO - Downloaded oriented PDB 8vux from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC1_P33527\ABCC1_P33527_8VUX.pdb
+2025-09-20 20:02:04,623 - INFO - Downloaded oriented PDB 8sc2 from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLC22A1_O15245\SLC22A1_O15245_8SC2.pdb
+2025-09-20 20:02:04,969 - INFO - Downloaded oriented PDB 8iza from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC4_O15439\ABCC4_O15439_8IZA.pdb
+2025-09-20 20:02:05,061 - INFO - Downloaded PDB 7a6f from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB1_P08183\ABCB1_P08183_7A6F.pdb
+2025-09-20 20:02:05,148 - INFO - Downloaded oriented PDB 9c2i from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC2_Q92887\ABCC2_Q92887_9C2I.pdb
+2025-09-20 20:02:05,428 - INFO - Downloaded oriented PDB 8vvc from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC1_P33527\ABCC1_P33527_8VVC.pdb
+2025-09-20 20:02:05,531 - INFO - Downloaded oriented PDB 8sc3 from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLC22A1_O15245\SLC22A1_O15245_8SC3.pdb
+2025-09-20 20:02:05,829 - INFO - Downloaded AlphaFold PDB for Q92887 to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_pred\ABCC2_Q92887\ABCC2_Q92887_AF-Q92887-F1.pdb
+2025-09-20 20:02:06,042 - INFO - Downloaded PDB 7o9w from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB1_P08183\ABCB1_P08183_7O9W.pdb
+2025-09-20 20:02:06,134 - INFO - Downloaded oriented PDB 8sc4 from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLC22A1_O15245\SLC22A1_O15245_8SC4.pdb
+2025-09-20 20:02:06,175 - INFO - Downloaded AlphaFold PDB for P33527 to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_pred\ABCC1_P33527\ABCC1_P33527_AF-P33527-F1.pdb
+2025-09-20 20:02:06,226 - INFO - Downloaded PDB 8j3w from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC4_O15439\ABCC4_O15439_8J3W.pdb
+2025-09-20 20:02:06,821 - INFO - Downloaded oriented PDB 8sc6 from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLC22A1_O15245\SLC22A1_O15245_8SC6.pdb
+2025-09-20 20:02:06,860 - INFO - Downloaded PDB 8j3z from OPM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC4_O15439\ABCC4_O15439_8J3Z.pdb
+2025-09-20 20:02:07,294 - INFO - Downloaded oriented PDB 8y6h from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB1_P08183\ABCB1_P08183_8Y6H.pdb
+2025-09-20 20:02:07,358 - INFO - Downloaded AlphaFold PDB for O15245 to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_pred\SLC22A1_O15245\SLC22A1_O15245_AF-O15245-F1.pdb
+2025-09-20 20:02:07,521 - INFO - Downloaded oriented PDB 8xok from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC4_O15439\ABCC4_O15439_8XOK.pdb
+2025-09-20 20:02:08,150 - INFO - Downloaded oriented PDB 8xol from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC4_O15439\ABCC4_O15439_8XOL.pdb
+2025-09-20 20:02:08,314 - INFO - Downloaded oriented PDB 8y6i from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB1_P08183\ABCB1_P08183_8Y6I.pdb
+2025-09-20 20:02:08,799 - INFO - Downloaded oriented PDB 8xom from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCC4_O15439\ABCC4_O15439_8XOM.pdb
+2025-09-20 20:02:09,335 - INFO - Downloaded AlphaFold PDB for O15439 to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_pred\ABCC4_O15439\ABCC4_O15439_AF-O15439-F1.pdb
+2025-09-20 20:02:09,482 - INFO - Downloaded oriented PDB 9cr8 from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB1_P08183\ABCB1_P08183_9CR8.pdb
+2025-09-20 20:02:10,199 - INFO - Downloaded oriented PDB 9ctc from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB1_P08183\ABCB1_P08183_9CTC.pdb
+2025-09-20 20:02:11,026 - INFO - Downloaded oriented PDB 9ctf from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB1_P08183\ABCB1_P08183_9CTF.pdb
+2025-09-20 20:02:11,771 - INFO - Downloaded oriented PDB 9ctg from PDBTM to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\ABCB1_P08183\ABCB1_P08183_9CTG.pdb
+2025-09-20 20:02:12,561 - INFO - Downloaded AlphaFold PDB for P08183 to C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_pred\ABCB1_P08183\ABCB1_P08183_AF-P08183-F1.pdb
+2025-09-20 20:02:50,984 - ERROR - Alignment failed for C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_pred\SLCO1B1_Q9Y6L6 vs C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_exp\SLCO1B1_Q9Y6L6\SLCO1B1_Q9Y6L6_8K6L.pdb: invalid literal for int() with base 10: 'A'
+2025-09-20 20:02:53,486 - INFO - Running multi-reference alignment and orientation
+2025-09-20 20:02:53,492 - INFO - Traité: PDB_Details 98 lignes, Alignment_Summary 84 lignes
+2025-09-20 20:02:53,494 - INFO - Grouped structures by gene_name: 13 groups
+2025-09-20 20:02:53,495 - INFO - Groupe ABCB1: référence avec DUM trouvée: 6C0V
+2025-09-20 20:02:53,496 - INFO - Groupe ABCB4: référence avec DUM trouvée: 6S7P
+2025-09-20 20:02:53,497 - INFO - Groupe ABCC1: aucune référence avec DUM trouvée
+2025-09-20 20:02:53,498 - INFO - Groupe ABCC2: aucune référence avec DUM trouvée
+2025-09-20 20:02:53,499 - INFO - Groupe ABCC4: référence avec DUM trouvée: 8I4A
+2025-09-20 20:02:53,500 - INFO - Groupe ABCG5-ABCG8: référence avec DUM trouvée: 5DO7
+2025-09-20 20:02:53,501 - INFO - Groupe SLC22A1: référence avec DUM trouvée: 8ET6
+2025-09-20 20:02:53,502 - INFO - Groupe SLC22A2: référence avec DUM trouvée: 8ET9
+2025-09-20 20:02:53,502 - INFO - Groupe SLC22A6: aucune référence avec DUM trouvée
+2025-09-20 20:02:53,503 - INFO - Groupe SLC22A8: aucune référence avec DUM trouvée
+2025-09-20 20:02:53,504 - INFO - Groupe SLC47A2: aucune référence avec DUM trouvée
+2025-09-20 20:02:53,504 - INFO - Groupe SLCO1B1: aucune référence avec DUM trouvée
+2025-09-20 20:02:53,506 - INFO - Groupe SLCO1B3: aucune référence avec DUM trouvée
+2025-09-20 20:02:53,506 - INFO - Found DUM references for 6/13 groups
+2025-09-20 20:02:53,511 - INFO - Found native reference from OPM: 6C0V
+2025-09-20 20:02:54,462 - INFO - Aligned patched_ABCB1_P08183_6FN1.pdb onto patched_ABCB1_P08183_6C0V.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCB1_P08183\oriented_ABCB1_P08183_6FN1_native.pdb
+2025-09-20 20:02:55,137 - INFO - Aligned patched_ABCB1_P08183_6FN4.pdb onto patched_ABCB1_P08183_6C0V.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCB1_P08183\oriented_ABCB1_P08183_6FN4_native.pdb
+2025-09-20 20:02:55,894 - INFO - Aligned patched_ABCB1_P08183_6QEX.pdb onto patched_ABCB1_P08183_6C0V.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCB1_P08183\oriented_ABCB1_P08183_6QEX_native.pdb
+2025-09-20 20:02:56,650 - INFO - Aligned patched_ABCB1_P08183_7A65.pdb onto patched_ABCB1_P08183_6C0V.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCB1_P08183\oriented_ABCB1_P08183_7A65_native.pdb
+2025-09-20 20:02:57,291 - INFO - Aligned patched_ABCB1_P08183_7A69.pdb onto patched_ABCB1_P08183_6C0V.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCB1_P08183\oriented_ABCB1_P08183_7A69_native.pdb
+2025-09-20 20:02:58,110 - INFO - Aligned patched_ABCB1_P08183_7A6C.pdb onto patched_ABCB1_P08183_6C0V.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCB1_P08183\oriented_ABCB1_P08183_7A6C_native.pdb
+2025-09-20 20:02:58,883 - INFO - Aligned patched_ABCB1_P08183_7A6E.pdb onto patched_ABCB1_P08183_6C0V.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCB1_P08183\oriented_ABCB1_P08183_7A6E_native.pdb
+2025-09-20 20:02:59,530 - INFO - Aligned patched_ABCB1_P08183_7A6F.pdb onto patched_ABCB1_P08183_6C0V.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCB1_P08183\oriented_ABCB1_P08183_7A6F_native.pdb
+2025-09-20 20:03:00,381 - INFO - Aligned patched_ABCB1_P08183_7O9W.pdb onto patched_ABCB1_P08183_6C0V.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCB1_P08183\oriented_ABCB1_P08183_7O9W_native.pdb
+2025-09-20 20:03:01,178 - INFO - Aligned patched_ABCB1_P08183_8Y6H.pdb onto patched_ABCB1_P08183_6C0V.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCB1_P08183\oriented_ABCB1_P08183_8Y6H_native.pdb
+2025-09-20 20:03:01,825 - INFO - Aligned patched_ABCB1_P08183_8Y6I.pdb onto patched_ABCB1_P08183_6C0V.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCB1_P08183\oriented_ABCB1_P08183_8Y6I_native.pdb
+2025-09-20 20:03:02,666 - INFO - Aligned patched_ABCB1_P08183_9CR8.pdb onto patched_ABCB1_P08183_6C0V.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCB1_P08183\oriented_ABCB1_P08183_9CR8_native.pdb
+2025-09-20 20:03:03,513 - INFO - Aligned patched_ABCB1_P08183_9CTC.pdb onto patched_ABCB1_P08183_6C0V.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCB1_P08183\oriented_ABCB1_P08183_9CTC_native.pdb
+2025-09-20 20:03:04,200 - INFO - Aligned patched_ABCB1_P08183_9CTF.pdb onto patched_ABCB1_P08183_6C0V.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCB1_P08183\oriented_ABCB1_P08183_9CTF_native.pdb
+2025-09-20 20:03:05,182 - INFO - Aligned patched_ABCB1_P08183_9CTG.pdb onto patched_ABCB1_P08183_6C0V.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCB1_P08183\oriented_ABCB1_P08183_9CTG_native.pdb
+2025-09-20 20:03:05,184 - INFO - Found native reference from OPM: 6S7P
+2025-09-20 20:03:06,164 - INFO - Aligned patched_ABCB4_P21439_7NIU.pdb onto patched_ABCB4_P21439_6S7P.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCB4_P21439\oriented_ABCB4_P21439_7NIU_native.pdb
+2025-09-20 20:03:06,846 - INFO - Aligned patched_ABCB4_P21439_7NIV.pdb onto patched_ABCB4_P21439_6S7P.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCB4_P21439\oriented_ABCB4_P21439_7NIV_native.pdb
+2025-09-20 20:03:07,794 - INFO - Aligned patched_ABCB4_P21439_7NIW.pdb onto patched_ABCB4_P21439_6S7P.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCB4_P21439\oriented_ABCB4_P21439_7NIW_native.pdb
+2025-09-20 20:03:07,796 - INFO - Found native reference from PDBTM: 8VT4
+2025-09-20 20:03:08,899 - INFO - Aligned patched_ABCC1_P33527_2CBZ.pdb onto patched_ABCC1_P33527_8VT4.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC1_P33527\oriented_ABCC1_P33527_2CBZ_native.pdb
+2025-09-20 20:03:09,687 - INFO - Aligned patched_ABCC1_P33527_4C3Z.pdb onto patched_ABCC1_P33527_8VT4.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC1_P33527\oriented_ABCC1_P33527_4C3Z_native.pdb
+2025-09-20 20:03:10,758 - INFO - Aligned patched_ABCC1_P33527_8VUX.pdb onto patched_ABCC1_P33527_8VT4.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC1_P33527\oriented_ABCC1_P33527_8VUX_native.pdb
+2025-09-20 20:03:11,543 - INFO - Aligned patched_ABCC1_P33527_8VVC.pdb onto patched_ABCC1_P33527_8VT4.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC1_P33527\oriented_ABCC1_P33527_8VVC_native.pdb
+2025-09-20 20:03:11,546 - INFO - Found native reference from PDBTM: 8IZQ
+2025-09-20 20:03:12,726 - INFO - Aligned patched_ABCC2_Q92887_8IZR.pdb onto patched_ABCC2_Q92887_8IZQ.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC2_Q92887\oriented_ABCC2_Q92887_8IZR_native.pdb
+2025-09-20 20:03:13,822 - INFO - Aligned patched_ABCC2_Q92887_8JX7.pdb onto patched_ABCC2_Q92887_8IZQ.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC2_Q92887\oriented_ABCC2_Q92887_8JX7_native.pdb
+2025-09-20 20:03:14,617 - INFO - Aligned patched_ABCC2_Q92887_8JXQ.pdb onto patched_ABCC2_Q92887_8IZQ.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC2_Q92887\oriented_ABCC2_Q92887_8JXQ_native.pdb
+2025-09-20 20:03:15,775 - INFO - Aligned patched_ABCC2_Q92887_8JXU.pdb onto patched_ABCC2_Q92887_8IZQ.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC2_Q92887\oriented_ABCC2_Q92887_8JXU_native.pdb
+2025-09-20 20:03:16,581 - INFO - Aligned patched_ABCC2_Q92887_8JY4.pdb onto patched_ABCC2_Q92887_8IZQ.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC2_Q92887\oriented_ABCC2_Q92887_8JY4_native.pdb
+2025-09-20 20:03:17,374 - INFO - Aligned patched_ABCC2_Q92887_8JY5.pdb onto patched_ABCC2_Q92887_8IZQ.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC2_Q92887\oriented_ABCC2_Q92887_8JY5_native.pdb
+2025-09-20 20:03:18,555 - INFO - Aligned patched_ABCC2_Q92887_9BR2.pdb onto patched_ABCC2_Q92887_8IZQ.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC2_Q92887\oriented_ABCC2_Q92887_9BR2_native.pdb
+2025-09-20 20:03:19,328 - INFO - Aligned patched_ABCC2_Q92887_9BUK.pdb onto patched_ABCC2_Q92887_8IZQ.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC2_Q92887\oriented_ABCC2_Q92887_9BUK_native.pdb
+2025-09-20 20:03:20,560 - INFO - Aligned patched_ABCC2_Q92887_9C12.pdb onto patched_ABCC2_Q92887_8IZQ.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC2_Q92887\oriented_ABCC2_Q92887_9C12_native.pdb
+2025-09-20 20:03:21,353 - INFO - Aligned patched_ABCC2_Q92887_9C2I.pdb onto patched_ABCC2_Q92887_8IZQ.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC2_Q92887\oriented_ABCC2_Q92887_9C2I_native.pdb
+2025-09-20 20:03:21,355 - INFO - Found native reference from OPM: 8I4A
+2025-09-20 20:03:22,515 - INFO - Aligned patched_ABCC4_O15439_8BJF.pdb onto patched_ABCC4_O15439_8I4A.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC4_O15439\oriented_ABCC4_O15439_8BJF_native.pdb
+2025-09-20 20:03:23,206 - INFO - Aligned patched_ABCC4_O15439_8BWO.pdb onto patched_ABCC4_O15439_8I4A.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC4_O15439\oriented_ABCC4_O15439_8BWO_native.pdb
+2025-09-20 20:03:23,900 - INFO - Aligned patched_ABCC4_O15439_8BWP.pdb onto patched_ABCC4_O15439_8I4A.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC4_O15439\oriented_ABCC4_O15439_8BWP_native.pdb
+2025-09-20 20:03:24,579 - INFO - Aligned patched_ABCC4_O15439_8BWQ.pdb onto patched_ABCC4_O15439_8I4A.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC4_O15439\oriented_ABCC4_O15439_8BWQ_native.pdb
+2025-09-20 20:03:25,770 - INFO - Aligned patched_ABCC4_O15439_8BWR.pdb onto patched_ABCC4_O15439_8I4A.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC4_O15439\oriented_ABCC4_O15439_8BWR_native.pdb
+2025-09-20 20:03:26,454 - INFO - Aligned patched_ABCC4_O15439_8I4B.pdb onto patched_ABCC4_O15439_8I4A.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC4_O15439\oriented_ABCC4_O15439_8I4B_native.pdb
+2025-09-20 20:03:27,138 - INFO - Aligned patched_ABCC4_O15439_8I4C.pdb onto patched_ABCC4_O15439_8I4A.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC4_O15439\oriented_ABCC4_O15439_8I4C_native.pdb
+2025-09-20 20:03:28,345 - INFO - Aligned patched_ABCC4_O15439_8IZ7.pdb onto patched_ABCC4_O15439_8I4A.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC4_O15439\oriented_ABCC4_O15439_8IZ7_native.pdb
+2025-09-20 20:03:29,030 - INFO - Aligned patched_ABCC4_O15439_8IZ8.pdb onto patched_ABCC4_O15439_8I4A.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC4_O15439\oriented_ABCC4_O15439_8IZ8_native.pdb
+2025-09-20 20:03:29,702 - INFO - Aligned patched_ABCC4_O15439_8IZ9.pdb onto patched_ABCC4_O15439_8I4A.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC4_O15439\oriented_ABCC4_O15439_8IZ9_native.pdb
+2025-09-20 20:03:30,396 - INFO - Aligned patched_ABCC4_O15439_8IZA.pdb onto patched_ABCC4_O15439_8I4A.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC4_O15439\oriented_ABCC4_O15439_8IZA_native.pdb
+2025-09-20 20:03:31,615 - INFO - Aligned patched_ABCC4_O15439_8J3W.pdb onto patched_ABCC4_O15439_8I4A.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC4_O15439\oriented_ABCC4_O15439_8J3W_native.pdb
+2025-09-20 20:03:32,297 - INFO - Aligned patched_ABCC4_O15439_8J3Z.pdb onto patched_ABCC4_O15439_8I4A.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC4_O15439\oriented_ABCC4_O15439_8J3Z_native.pdb
+2025-09-20 20:03:32,990 - INFO - Aligned patched_ABCC4_O15439_8XOK.pdb onto patched_ABCC4_O15439_8I4A.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC4_O15439\oriented_ABCC4_O15439_8XOK_native.pdb
+2025-09-20 20:03:33,694 - INFO - Aligned patched_ABCC4_O15439_8XOL.pdb onto patched_ABCC4_O15439_8I4A.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC4_O15439\oriented_ABCC4_O15439_8XOL_native.pdb
+2025-09-20 20:03:34,958 - INFO - Aligned patched_ABCC4_O15439_8XOM.pdb onto patched_ABCC4_O15439_8I4A.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCC4_O15439\oriented_ABCC4_O15439_8XOM_native.pdb
+2025-09-20 20:03:34,961 - INFO - Found native reference from OPM: 5DO7
+2025-09-20 20:03:36,014 - INFO - Aligned patched_ABCG5-ABCG8_Q9H222_7JR7.pdb onto patched_ABCG5-ABCG8_Q9H222_5DO7.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCG5-ABCG8_Q9H222\oriented_ABCG5-ABCG8_Q9H222_7JR7_native.pdb
+2025-09-20 20:03:36,741 - INFO - Aligned patched_ABCG5-ABCG8_Q9H222_7R87.pdb onto patched_ABCG5-ABCG8_Q9H222_5DO7.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCG5-ABCG8_Q9H222\oriented_ABCG5-ABCG8_Q9H222_7R87_native.pdb
+2025-09-20 20:03:38,141 - INFO - Aligned patched_ABCG5-ABCG8_Q9H222_7R88.pdb onto patched_ABCG5-ABCG8_Q9H222_5DO7.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCG5-ABCG8_Q9H222\oriented_ABCG5-ABCG8_Q9H222_7R88_native.pdb
+2025-09-20 20:03:38,946 - INFO - Aligned patched_ABCG5-ABCG8_Q9H222_7R89.pdb onto patched_ABCG5-ABCG8_Q9H222_5DO7.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCG5-ABCG8_Q9H222\oriented_ABCG5-ABCG8_Q9H222_7R89_native.pdb
+2025-09-20 20:03:39,760 - INFO - Aligned patched_ABCG5-ABCG8_Q9H222_7R8A.pdb onto patched_ABCG5-ABCG8_Q9H222_5DO7.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCG5-ABCG8_Q9H222\oriented_ABCG5-ABCG8_Q9H222_7R8A_native.pdb
+2025-09-20 20:03:40,581 - INFO - Aligned patched_ABCG5-ABCG8_Q9H222_7R8B.pdb onto patched_ABCG5-ABCG8_Q9H222_5DO7.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCG5-ABCG8_Q9H222\oriented_ABCG5-ABCG8_Q9H222_7R8B_native.pdb
+2025-09-20 20:03:41,256 - INFO - Aligned patched_ABCG5-ABCG8_Q9H222_8CUB.pdb onto patched_ABCG5-ABCG8_Q9H222_5DO7.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\ABCG5-ABCG8_Q9H222\oriented_ABCG5-ABCG8_Q9H222_8CUB_native.pdb
+2025-09-20 20:03:41,258 - INFO - Found native reference from OPM: 8ET6
+2025-09-20 20:03:42,274 - INFO - Aligned patched_SLC22A1_O15245_8ET7.pdb onto patched_SLC22A1_O15245_8ET6.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLC22A1_O15245\oriented_SLC22A1_O15245_8ET7_native.pdb
+2025-09-20 20:03:42,551 - INFO - Aligned patched_SLC22A1_O15245_8ET8.pdb onto patched_SLC22A1_O15245_8ET6.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLC22A1_O15245\oriented_SLC22A1_O15245_8ET8_native.pdb
+2025-09-20 20:03:42,815 - INFO - Aligned patched_SLC22A1_O15245_8JTS.pdb onto patched_SLC22A1_O15245_8ET6.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLC22A1_O15245\oriented_SLC22A1_O15245_8JTS_native.pdb
+2025-09-20 20:03:43,080 - INFO - Aligned patched_SLC22A1_O15245_8JTT.pdb onto patched_SLC22A1_O15245_8ET6.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLC22A1_O15245\oriented_SLC22A1_O15245_8JTT_native.pdb
+2025-09-20 20:03:43,359 - INFO - Aligned patched_SLC22A1_O15245_8JTV.pdb onto patched_SLC22A1_O15245_8ET6.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLC22A1_O15245\oriented_SLC22A1_O15245_8JTV_native.pdb
+2025-09-20 20:03:43,650 - INFO - Aligned patched_SLC22A1_O15245_8JTW.pdb onto patched_SLC22A1_O15245_8ET6.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLC22A1_O15245\oriented_SLC22A1_O15245_8JTW_native.pdb
+2025-09-20 20:03:43,931 - INFO - Aligned patched_SLC22A1_O15245_8JTX.pdb onto patched_SLC22A1_O15245_8ET6.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLC22A1_O15245\oriented_SLC22A1_O15245_8JTX_native.pdb
+2025-09-20 20:03:44,213 - INFO - Aligned patched_SLC22A1_O15245_8JTY.pdb onto patched_SLC22A1_O15245_8ET6.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLC22A1_O15245\oriented_SLC22A1_O15245_8JTY_native.pdb
+2025-09-20 20:03:44,486 - INFO - Aligned patched_SLC22A1_O15245_8JTZ.pdb onto patched_SLC22A1_O15245_8ET6.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLC22A1_O15245\oriented_SLC22A1_O15245_8JTZ_native.pdb
+2025-09-20 20:03:44,753 - INFO - Aligned patched_SLC22A1_O15245_8JU0.pdb onto patched_SLC22A1_O15245_8ET6.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLC22A1_O15245\oriented_SLC22A1_O15245_8JU0_native.pdb
+2025-09-20 20:03:45,075 - INFO - Aligned patched_SLC22A1_O15245_8SC1.pdb onto patched_SLC22A1_O15245_8ET6.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLC22A1_O15245\oriented_SLC22A1_O15245_8SC1_native.pdb
+2025-09-20 20:03:45,366 - INFO - Aligned patched_SLC22A1_O15245_8SC2.pdb onto patched_SLC22A1_O15245_8ET6.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLC22A1_O15245\oriented_SLC22A1_O15245_8SC2_native.pdb
+2025-09-20 20:03:45,643 - INFO - Aligned patched_SLC22A1_O15245_8SC3.pdb onto patched_SLC22A1_O15245_8ET6.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLC22A1_O15245\oriented_SLC22A1_O15245_8SC3_native.pdb
+2025-09-20 20:03:46,660 - INFO - Aligned patched_SLC22A1_O15245_8SC4.pdb onto patched_SLC22A1_O15245_8ET6.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLC22A1_O15245\oriented_SLC22A1_O15245_8SC4_native.pdb
+2025-09-20 20:03:46,935 - INFO - Aligned patched_SLC22A1_O15245_8SC6.pdb onto patched_SLC22A1_O15245_8ET6.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLC22A1_O15245\oriented_SLC22A1_O15245_8SC6_native.pdb
+2025-09-20 20:03:46,937 - INFO - Found native reference from OPM: 8ET9
+2025-09-20 20:03:46,940 - INFO - No DUM reference for group SLC22A6. Attempting to create one with fallback.
+2025-09-20 20:03:46,941 - WARNING - Could not create a fallback reference for group SLC22A6. All enabled orientation methods (e.g., PDBTM, MemProtMD, Memembed) failed for all candidate structures in this group. Check service configurations in config.py and network connectivity.
+2025-09-20 20:03:46,941 - INFO - No DUM reference for group SLC22A8. Attempting to create one with fallback.
+2025-09-20 20:03:46,941 - WARNING - Could not create a fallback reference for group SLC22A8. All enabled orientation methods (e.g., PDBTM, MemProtMD, Memembed) failed for all candidate structures in this group. Check service configurations in config.py and network connectivity.
+2025-09-20 20:03:46,942 - INFO - No DUM reference for group SLC47A2. Attempting to create one with fallback.
+2025-09-20 20:03:46,942 - WARNING - Could not create a fallback reference for group SLC47A2. All enabled orientation methods (e.g., PDBTM, MemProtMD, Memembed) failed for all candidate structures in this group. Check service configurations in config.py and network connectivity.
+2025-09-20 20:03:46,944 - INFO - Found native reference from PDBTM: 8HNB
+2025-09-20 20:03:47,302 - INFO - Aligned patched_SLCO1B1_Q9Y6L6_8HNC.pdb onto patched_SLCO1B1_Q9Y6L6_8HNB.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLCO1B1_Q9Y6L6\oriented_SLCO1B1_Q9Y6L6_8HNC_native.pdb
+2025-09-20 20:03:47,669 - INFO - Aligned patched_SLCO1B1_Q9Y6L6_8HND.pdb onto patched_SLCO1B1_Q9Y6L6_8HNB.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLCO1B1_Q9Y6L6\oriented_SLCO1B1_Q9Y6L6_8HND_native.pdb
+2025-09-20 20:03:48,002 - INFO - Aligned patched_SLCO1B1_Q9Y6L6_8HNH.pdb onto patched_SLCO1B1_Q9Y6L6_8HNB.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLCO1B1_Q9Y6L6\oriented_SLCO1B1_Q9Y6L6_8HNH_native.pdb
+2025-09-20 20:03:48,344 - INFO - Aligned patched_SLCO1B1_Q9Y6L6_8PHW.pdb onto patched_SLCO1B1_Q9Y6L6_8HNB.pdb -> C:\Users\lexbo\Desktop\PDBCreatorAO-main\PDBCreatorAO-main\pdb_structures_oriented\SLCO1B1_Q9Y6L6\oriented_SLCO1B1_Q9Y6L6_8PHW_native.pdb
+2025-09-20 20:03:48,346 - INFO - Found native reference from PDBTM: 8PG0
+2025-09-20 20:03:48,405 - INFO - Using XlsxWriter for initial Excel export.
+2025-09-20 20:03:48,911 - INFO - Pipeline completed

@@ -1,0 +1,10 @@
+name: myproj
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pdbfixer
+  - openmm
+  - pip
+  - pip:
+      - -r requirements.txt

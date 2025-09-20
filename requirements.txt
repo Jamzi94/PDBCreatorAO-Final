@@ -1,0 +1,12 @@
+requests
+pandas
+openpyxl
+numpy
+biopython
+MDAnalysis>=2.4.0
+tmscoring
+iminuit
+pyarrow
+httpx[http2]
+xlsxwriter
+openmm
