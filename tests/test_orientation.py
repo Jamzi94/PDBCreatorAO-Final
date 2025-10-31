@@ -47,7 +47,8 @@ def linear_membrane(tmp_path: Path) -> Path:
 def _load_coords(path: Path) -> np.ndarray:
     parser = PDBParser(QUIET=True)
     structure = parser.get_structure(path.stem, str(path))
-    coords = [atom.get_coord() for atom in structure.get_atoms() if getattr(atom, "element", atom.get_name()[0]).upper() != "H"]
+    coords = [atom.get_coord() for atom in structure.get_atoms() if getattr(
+        atom, "element", atom.get_name()[0]).upper() != "H"]
     return np.asarray(coords)
 
 
@@ -86,36 +87,42 @@ def test_fallback_uses_memembed_before_tmdet(monkeypatch, tmp_path: Path):
         Path(dest).write_text("HEADER\nEND\n")
         return {"method": "Memembed"}
 
-    monkeypatch.setattr(structure_repair, "orient_with_pdbtm", _fail("pdbtm"))
     monkeypatch.setattr(structure_repair, "orient_with_ppm", _fail("ppm"))
-    monkeypatch.setattr(structure_repair, "orient_with_memprotmd", _fail("memprotmd"))
-    monkeypatch.setattr(structure_repair, "orient_with_memembed", lambda pdb, dest: _memembed(dest))
+    monkeypatch.setattr(structure_repair, "orient_with_memembed",
+                        lambda pdb, dest: _memembed(dest))
     monkeypatch.setattr(structure_repair, "orient_with_tmdet", _fail("tmdet"))
-    monkeypatch.setattr(structure_repair, "orient_with_principal_axes", _fail("axes"))
+    monkeypatch.setattr(
+        structure_repair, "orient_with_principal_axes", _fail("axes"))
 
-    cfg = SimpleNamespace(ppm_path=None)
+    cfg = SimpleNamespace(ppm_path=None, prefer_native_sources=False)
     dummy = tmp_path / "dummy.pdb"
     dummy.write_text("HEADER\nEND\n")
     out_dir = tmp_path / "out"
     out_dir.mkdir()
 
-    new_path, method = oriented._orient_with_fallback("TEST", dummy, out_dir, cfg)
+    new_path, method = oriented._orient_with_fallback(
+        "TEST", dummy, out_dir, cfg)
 
     assert method == "Memembed"
     assert Path(new_path).is_file()
-    assert order == ["memprotmd", "pdbtm", "memembed"]
+    assert order == ["memembed"]
 
 
 def test_ensure_repair_dependencies_python_guard(monkeypatch):
     monkeypatch.setattr(structure_repair, "PDBFixer", None, raising=False)
     monkeypatch.setattr(structure_repair, "PDBFile", None, raising=False)
-    monkeypatch.setattr(structure_repair, "_REPAIR_AVAILABLE", None, raising=False)
-    monkeypatch.setattr(structure_repair, "_REPAIR_WARNING_EMITTED", False, raising=False)
-    monkeypatch.setattr(structure_repair, "_INSTALL_ATTEMPTED", False, raising=False)
+    monkeypatch.setattr(
+        structure_repair, "_REPAIR_AVAILABLE", None, raising=False)
+    monkeypatch.setattr(
+        structure_repair, "_REPAIR_WARNING_EMITTED", False, raising=False)
+    monkeypatch.setattr(
+        structure_repair, "_INSTALL_ATTEMPTED", False, raising=False)
 
     fake_sys = SimpleNamespace(version_info=(3, 13, 0), executable="python")
     monkeypatch.setattr(structure_repair, "sys", fake_sys, raising=False)
-    monkeypatch.setattr(structure_repair.subprocess, "check_call", lambda *a, **k: pytest.fail("should not install"))
+    monkeypatch.setattr(structure_repair.subprocess, "check_call",
+                        lambda *a, **k: pytest.fail("should not install"))
 
-    assert structure_repair._ensure_repair_dependencies(auto_install=True) is False
+    assert structure_repair._ensure_repair_dependencies(
+        auto_install=True) is False
     assert structure_repair._REPAIR_AVAILABLE is False

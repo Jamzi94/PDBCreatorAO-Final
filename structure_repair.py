@@ -10,7 +10,11 @@ from typing import Any, Dict, Optional
 
 import numpy as np
 import subprocess
-from config import SERVICE_CONFIG
+import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+from datetime import datetime, timedelta
+from bs4 import BeautifulSoup
 
 try:
     from openmm.app import PDBFile  # type: ignore
@@ -27,16 +31,10 @@ except ImportError:  # pragma: no cover - optional dependency
 
 
 log = logging.getLogger(__name__)
-_REPAIR_WARNING_EMITTED = False
-_REPAIR_AVAILABLE: Optional[bool] = None
-_INSTALL_ATTEMPTED = False
 
 
-def _get_http_session(*, retries: int = 3, backoff: float = 0.8) -> Optional["requests.Session"]:
+def _create_http_session(*, retries: int = 3, backoff: float = 0.8) -> requests.Session:
     """Return a requests session configured with retries and friendly headers."""
-    if requests is None:  # pragma: no cover - optional dependency
-        return None
-
     session = requests.Session()
     retry_strategy = Retry(
         total=retries,
@@ -45,7 +43,8 @@ def _get_http_session(*, retries: int = 3, backoff: float = 0.8) -> Optional["re
         allowed_methods=("GET", "POST"),
         respect_retry_after_header=True,
     )
-    adapter = HTTPAdapter(max_retries=retry_strategy, pool_connections=10, pool_maxsize=20)
+    adapter = HTTPAdapter(max_retries=retry_strategy,
+                          pool_connections=10, pool_maxsize=20)
     session.mount("https://", adapter)
     session.mount("http://", adapter)
     session.headers.update(
@@ -61,15 +60,11 @@ def _get_http_session(*, retries: int = 3, backoff: float = 0.8) -> Optional["re
     return session
 
 
-def _download_file(url: str, out_path: Path, *, session=None, timeout: tuple[int, int] = (5, 30)) -> bool:
+session = _create_http_session()
+
+
+def _download_file(url: str, out_path: Path, *, timeout: tuple[int, int] = (5, 30)) -> bool:
     """Download a file to disk using the shared HTTP session."""
-    if requests is None:
-        return False
-
-    session = session or _get_http_session()
-    if session is None:
-        return False
-
     try:
         response = session.get(url, timeout=timeout)
         response.raise_for_status()
@@ -85,18 +80,10 @@ def _download_file_with_size_check(
     url: str,
     out_path: Path,
     *,
-    session=None,
     timeout: tuple[int, int] = (5, 30),
     max_size_mb: int = 20,
 ) -> bool:
     """Download a file ensuring it does not exceed the configured size limit."""
-    if requests is None:
-        return False
-
-    session = session or _get_http_session()
-    if session is None:
-        return False
-
     try:
         with session.get(url, stream=True, timeout=timeout) as response:
             response.raise_for_status()
@@ -198,9 +185,11 @@ def _ensure_repair_dependencies(auto_install: bool) -> bool:
 
     if auto_install and not _INSTALL_ATTEMPTED:
         _INSTALL_ATTEMPTED = True
-        log.info("Attempting automatic installation of PDBFixer/OpenMM for structure repair.")
+        log.info(
+            "Attempting automatic installation of PDBFixer/OpenMM for structure repair.")
         try:
-            subprocess.check_call([sys.executable, "-m", "pip", "install", "openmm", "pdbfixer"])
+            subprocess.check_call(
+                [sys.executable, "-m", "pip", "install", "openmm", "pdbfixer"])
         except Exception as exc:  # pragma: no cover - defensive log
             log.error("Automatic installation of repair tools failed: %s", exc)
             _REPAIR_AVAILABLE = False
@@ -211,7 +200,8 @@ def _ensure_repair_dependencies(auto_install: bool) -> bool:
         from pdbfixer import PDBFixer as _PDBFixer  # type: ignore
     except ImportError as exc:
         if not _REPAIR_WARNING_EMITTED:
-            log.warning("Required tools (PDBFixer/OpenMM) not installed. Skipping structure repair.")
+            log.warning(
+                "Required tools (PDBFixer/OpenMM) not installed. Skipping structure repair.")
             _REPAIR_WARNING_EMITTED = True
         _REPAIR_AVAILABLE = False
         if auto_install and _INSTALL_ATTEMPTED:
@@ -222,8 +212,6 @@ def _ensure_repair_dependencies(auto_install: bool) -> bool:
     globals()["PDBFixer"] = _PDBFixer
     _REPAIR_AVAILABLE = True
     return True
-
-
 
 
 def fix_structure(input_path: Path, output_path: Path, auto_install: bool = False) -> bool:
@@ -242,7 +230,8 @@ def fix_structure(input_path: Path, output_path: Path, auto_install: bool = Fals
             try:
                 ligands_before = parse_small_molecules(str(input_path))
             except Exception as exc:  # pragma: no cover - defensive log
-                log.debug("Failed to parse small molecules for %s: %s", input_path, exc)
+                log.debug(
+                    "Failed to parse small molecules for %s: %s", input_path, exc)
 
         fixer = PDBFixer(str(input_path))
         fixer.findNonstandardResidues()
@@ -270,12 +259,14 @@ def fix_structure(input_path: Path, output_path: Path, auto_install: bool = Fals
         output_path = output_path.expanduser().resolve()
         output_path.parent.mkdir(parents=True, exist_ok=True)
         with open(output_path, "w", encoding="utf-8") as handle:
-            PDBFile.writeFile(fixer.topology, fixer.positions, handle, keepIds=True)
+            PDBFile.writeFile(fixer.topology, fixer.positions,
+                              handle, keepIds=True)
 
         log.info("Repaired structure saved to %s", output_path)
         return True
     except Exception as exc:  # pragma: no cover - defensive
-        log.error("Failed to repair %s with PDBFixer: %s", input_path.name, exc)
+        log.error("Failed to repair %s with PDBFixer: %s",
+                  input_path.name, exc)
         return False
 
 
@@ -284,7 +275,8 @@ HYDROPHOBIC_RESIDUES = {"ALA", "VAL", "ILE", "LEU", "MET", "PHE", "TYR", "TRP"}
 
 def _load_orientation_payload(pdb_path: Path):
     if PDBParser is None or PDBIO is None:
-        log.error("Biopython is required to orient %s but is not installed", pdb_path)
+        log.error(
+            "Biopython is required to orient %s but is not installed", pdb_path)
         return None
     if not pdb_path.is_file():
         log.error("PDB file not found for orientation: %s", pdb_path)
@@ -309,7 +301,8 @@ def _load_orientation_payload(pdb_path: Path):
 
 def _principal_axes(coords: np.ndarray):
     if coords.size == 0:
-        raise ValueError("No coordinates available for principal axes computation")
+        raise ValueError(
+            "No coordinates available for principal axes computation")
     center = coords.mean(axis=0)
     centered = coords - center
     cov = centered.T @ centered / max(len(centered), 1)
@@ -346,38 +339,32 @@ def _measure_thickness(coords: np.ndarray) -> float:
     return float(z_vals.max() - z_vals.min())
 
 
-def orient_with_pdbtm(pdb_id: str, src_path: Path, out_path: Path) -> Optional[Dict[str, Any]]:
-    """DEPRECATED: Now using file-based references instead of network calls."""
-    log.warning("orient_with_pdbtm is deprecated. Using orient_with_pdbtm_cached instead.")
-    return None
-
-
 def orient_with_pdbtm_cached(pdb_id: str, src_path: Path, out_path: Path) -> Optional[Dict[str, Any]]:
     """Use existing PDBTM/OPM files as reference for alignment.
-    
+
     Args:
         pdb_id: PDB ID of the target structure
         src_path: Path to the PDB file to orient
         out_path: Where to save the oriented structure
-        
+
     Returns:
         Dict with method, reference, and metadata
     """
     from oriented import _align_to_reference
-    
+
     # Extract gene/uniprot info from the path
     parent_dir = src_path.parent.name
     if "_" not in parent_dir:
         log.warning("Cannot extract gene/uniprot from path %s", src_path)
         return None
-    
+
     gene_name, uniprot_id = parent_dir.split("_", 1)
     group_dir = src_path.parent
-    
+
     # Look for OPM/PDBTM references in this group's directory
     ref_file = None
     ref_source = None
-    
+
     for source in ("OPM", "PDBTM"):
         for f in group_dir.glob("*.pdb"):
             if f.stem != pdb_id and source.lower() in f.name.lower():
@@ -386,13 +373,14 @@ def orient_with_pdbtm_cached(pdb_id: str, src_path: Path, out_path: Path) -> Opt
                 break
         if ref_file:
             break
-            
+
     if not ref_file:
         log.info("No native reference found for %s in %s", pdb_id, group_dir)
         return None
-        
+
     try:
-        rms_before, rms_after = _align_to_reference(ref_file, src_path, out_path)
+        rms_before, rms_after = _align_to_reference(
+            ref_file, src_path, out_path)
         log.info(
             "Aligned %s to %s reference %s (RMS: %.3f → %.3f)",
             pdb_id, ref_source, ref_file.stem, rms_before, rms_after
@@ -411,85 +399,6 @@ def orient_with_pdbtm_cached(pdb_id: str, src_path: Path, out_path: Path) -> Opt
         return None
 
 
-def orient_with_memprotmd(pdb_id: str, src_path: Path, out_path: Path) -> Optional[Dict[str, Any]]:
-    """DEPRECATED: Now using file-based references instead of scraping."""
-    log.warning("orient_with_memprotmd is deprecated. Use on-disk references instead.")
-    return None
-    try:
-        response = session.get(ref_url, timeout=timeout)
-        response.raise_for_status()
-        soup = BeautifulSoup(response.text, "html.parser")
-
-        sim_id = None
-        for link in soup.find_all('a', href=True):
-            href = link['href']
-            if '/_sim/' in href and 'default' in href:
-                sim_id = href.strip('/').split('/')[-1]
-                break
-        if not sim_id:
-            for link in soup.find_all('a', href=True):
-                href = link['href']
-                if '/_sim/' in href:
-                    sim_id = href.strip('/').split('/')[-1]
-                    break
-        if not sim_id:
-            log.info("No simulation ID found on MemProtMD reference page for %s", pdb_id)
-            return None
-
-        sim_url = f"{base_url.rstrip('/')}/_ref/PDB/{pdb_code.lower()}/_sim/{sim_id}/"
-        response_sim = session.get(sim_url, timeout=timeout)
-        response_sim.raise_for_status()
-        soup_sim = BeautifulSoup(response_sim.text, "html.parser")
-
-        ready_links = []
-        pdb_links = []
-        for link in soup_sim.find_all('a', href=True):
-            href = link['href']
-            if href.endswith('.pdb'):
-                pdb_links.append(href)
-                if '-ready.pdb' in href:
-                    ready_links.append(href)
-
-        target_links = ready_links or pdb_links
-        if not target_links:
-            log.info("No PDB download links found on MemProtMD simulation page for %s", pdb_id)
-            return None
-
-        download_path = target_links[0]
-        if download_path.startswith('http'):
-            download_url = download_path
-        elif download_path.startswith('/'):
-            download_url = f"{base_url.rstrip('/')}{download_path}"
-        else:
-            download_url = f"{sim_url}{download_path}"
-
-        if _download_file_with_size_check(
-            download_url,
-            out_path,
-            session=session,
-            timeout=timeout,
-            max_size_mb=max_size_mb,
-        ):
-            return {
-                "method": "MemProtMD_Scraping",
-                "simulation_id": sim_id,
-                "source_url": download_url,
-                "file_url": download_url,
-                "metadata": "Oriented structure from MemProtMD scraping",
-            }
-    except Exception as exc:  # pragma: no cover - defensive log
-        log.info("MemProtMD scraping failed for %s: %s", pdb_id, exc)
-        return None
-
-    return None
-
-
-def orient_with_memprotmd_cached(pdb_id: str, src_path: Path, out_path: Path) -> Optional[Dict[str, Any]]:
-    """DEPRECATED: Now using file-based references instead of scraping."""
-    log.warning("orient_with_memprotmd_cached is deprecated. Use on-disk references instead.")
-    return None
-
-
 def orient_with_memembed(pdb_path: Path, out_path: Path) -> Optional[Dict[str, Any]]:
     """Approximate Memembed orientation using hydrophobic principal axes."""
     payload = _load_orientation_payload(pdb_path)
@@ -498,7 +407,8 @@ def orient_with_memembed(pdb_path: Path, out_path: Path) -> Optional[Dict[str, A
     structure, heavy_coords, hydrophobic_coords = payload
     source_coords = hydrophobic_coords if hydrophobic_coords.shape[0] >= 3 else heavy_coords
     if source_coords.shape[0] < 3:
-        log.warning("Not enough hydrophobic atoms to orient %s via Memembed", pdb_path.name)
+        log.warning(
+            "Not enough hydrophobic atoms to orient %s via Memembed", pdb_path.name)
         return None
 
     center, eigenvalues, eigenvectors = _principal_axes(source_coords)
@@ -527,7 +437,8 @@ def orient_with_tmdet(
     structure, heavy_coords, hydrophobic_coords = payload
     source_coords = hydrophobic_coords if hydrophobic_coords.shape[0] >= 3 else heavy_coords
     if source_coords.shape[0] < 3:
-        log.warning("Not enough atoms to orient %s via TMDET heuristic", pdb_path.name)
+        log.warning(
+            "Not enough atoms to orient %s via TMDET heuristic", pdb_path.name)
         return None
 
     center, eigenvalues, eigenvectors = _principal_axes(source_coords)
@@ -558,7 +469,8 @@ def orient_with_tmdet(
 
     _apply_orientation(structure, center, rotation, out_path)
 
-    midplane_offset = float(rotated_coords[:, 2].mean()) if rotated_coords.size else 0.0
+    midplane_offset = float(
+        rotated_coords[:, 2].mean()) if rotated_coords.size else 0.0
 
     return {
         "method": "TMDET",

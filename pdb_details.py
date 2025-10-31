@@ -108,11 +108,13 @@ def get_pdb_details(pdb_id: str) -> dict:
 
     # Extract conformational states via regex
     raw_confs = CONF_PATTERN.findall(combined_text)
-    conformation = ", ".join(dict.fromkeys(raw_confs)) if raw_confs else "Not specified"
+    conformation = ", ".join(dict.fromkeys(
+        raw_confs)) if raw_confs else "Not specified"
 
     # Extract experimental environment terms via regex
     raw_envs = ENV_PATTERN.findall(combined_text)
-    environment = ", ".join(dict.fromkeys(raw_envs)) if raw_envs else "Not specified"
+    environment = ", ".join(dict.fromkeys(
+        raw_envs)) if raw_envs else "Not specified"
 
     # Retrieve polymer entity descriptions
     count = info.get("polymer_entity_count", 0)
@@ -140,7 +142,8 @@ def get_pdb_details(pdb_id: str) -> dict:
             chains.append(",".join(ch_list))
             orgs.append(o)
         except Exception as e:
-            log.warning(f"Failed to retrieve polymer_entity {i} for {pdb_id}: {e}")
+            log.warning(
+                f"Failed to retrieve polymer_entity {i} for {pdb_id}: {e}")
             continue
 
     return {

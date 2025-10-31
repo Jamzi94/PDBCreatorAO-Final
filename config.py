@@ -49,15 +49,23 @@ class PipelineConfig:
     require_native_reference: bool = False
     native_source_priority: tuple[str, ...] = ("OPM", "PDBTM")
     # Feature flags
-    use_xlsxwriter: bool = True  # Use XlsxWriter for fast Excel export (default: True)
-    use_repair: bool = True  # Enable PDBFixer-based repair/protonation (default: False)
-    auto_install_repair: bool = True  # Attempt to install repair dependencies automatically
-    use_pdb_fixer: bool = True  # Backwards-compatible alias for structure repair (default: False)
-    use_orientation_fallback: bool = True  # Enable orientation fallback cascade (default: False)
-    enable_new_orientation_services: bool = True  # Activate enhanced multi-source orientation
+    # Use XlsxWriter for fast Excel export (default: True)
+    use_xlsxwriter: bool = True
+    # Enable PDBFixer-based repair/protonation (default: False)
+    use_repair: bool = True
+    # Attempt to install repair dependencies automatically
+    auto_install_repair: bool = True
+    # Backwards-compatible alias for structure repair (default: False)
+    use_pdb_fixer: bool = True
+    # Enable orientation fallback cascade (default: False)
+    use_orientation_fallback: bool = True
+    # Activate enhanced multi-source orientation
+    enable_new_orientation_services: bool = True
     prefer_pdbtm_over_memprotmd: bool = False  # Legacy ordering preference toggle
-    ppm_path: Optional[str] = None  # Path to local PPM executable for orientation fallback
-    use_http2: bool = False  # Use HTTP/2 for API/networking if available (default: False)
+    # Path to local PPM executable for orientation fallback
+    ppm_path: Optional[str] = None
+    # Use HTTP/2 for API/networking if available (default: False)
+    use_http2: bool = False
 
     def __post_init__(self) -> None:
         """Keep legacy repair flags in sync."""
@@ -67,7 +75,6 @@ class PipelineConfig:
             self.use_repair = True
         if self.auto_install_repair and not self.use_repair:
             self.auto_install_repair = False
-
 
     @classmethod
     def from_args(
@@ -88,7 +95,8 @@ class PipelineConfig:
         Returns:
             PipelineConfig: Fully initialised configuration object.
         """
-        base_path = Path(base).expanduser().resolve() if base else Path.cwd().resolve()
+        base_path = Path(base).expanduser().resolve(
+        ) if base else Path.cwd().resolve()
         input_path = (
             Path(input_template).expanduser().resolve()
             if input_template

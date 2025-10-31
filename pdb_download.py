@@ -48,9 +48,11 @@ def download_pdb_structure(
             head = resp.content[:4096]
             if any(token in head for token in (b"ATOM", b"HETATM", b"HEADER")):
                 output_path.write_bytes(resp.content)
-                log.info(f"Downloaded oriented PDB {pdb_id} from PDBTM to {output_path}")
+                log.info(
+                    f"Downloaded oriented PDB {pdb_id} from PDBTM to {output_path}")
                 return str(output_path), "PDBTM"
-            log.debug(f"PDBTM content for {pdb_id} does not look like PDB text")
+            log.debug(
+                f"PDBTM content for {pdb_id} does not look like PDB text")
         else:
             log.debug(f"PDBTM returned status {resp.status_code} for {pdb_id}")
     except Exception as exc:
@@ -67,4 +69,3 @@ def download_pdb_structure(
     except Exception as exc:
         log.error(f"Failed to download PDB {pdb_id} from RCSB: {exc}")
         return "", ""
-
