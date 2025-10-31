@@ -25,9 +25,11 @@ except ImportError as e:
 # Test 2: Verify pipeline configuration
 print("\nTest 2: Testing pipeline configuration...")
 try:
+    import tempfile
     from config import PipelineConfig
-    cfg = PipelineConfig.from_args(base="/tmp/test_pipeline")
-    assert cfg.base_dir == Path("/tmp/test_pipeline")
+    test_dir = Path(tempfile.gettempdir()) / "test_pipeline"
+    cfg = PipelineConfig.from_args(base=str(test_dir))
+    assert cfg.base_dir == test_dir
     print("✅ Pipeline configuration works")
 except Exception as e:
     print(f"❌ Configuration failed: {e}")
@@ -50,9 +52,7 @@ try:
     from pipeline import extract_pdb_from_cell
     from unittest.mock import Mock
     
-    cell = Mock()
-    cell.hyperlink = None
-    cell.value = "1ABC"
+    cell = Mock(hyperlink=None, value="1ABC")
     result = extract_pdb_from_cell(cell)
     assert result == "1ABC"
     print("✅ Helper functions work")

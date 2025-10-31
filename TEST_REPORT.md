@@ -6,7 +6,7 @@
 
 ## Executive Summary
 
-The PDBCreatorAO protein structure analysis pipeline has been tested and verified as **FUNCTIONAL**. All core functionality works correctly, dependencies are properly configured, and the majority of automated tests pass successfully.
+The PDBCreatorAO protein structure analysis pipeline has been tested and verified as **FUNCTIONAL**. Essential features are operational, dependencies are properly configured, and 89% of automated tests pass successfully. The single failing test is due to a test infrastructure issue, not a bug in the production code.
 
 ## Test Environment
 
@@ -140,9 +140,8 @@ The codebase follows a modular architecture with clear separation of concerns:
 The code is **production-ready** and can be used as-is. To run the pipeline:
 
 ```bash
-# Install dependencies
+# Install all dependencies (including beautifulsoup4 and lxml)
 pip install -r requirements.txt
-pip install beautifulsoup4 lxml
 
 # Run with UniProt IDs
 python pipeline.py --ids P12345 Q8ZIN0
