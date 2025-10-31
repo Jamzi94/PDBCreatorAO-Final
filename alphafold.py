@@ -84,6 +84,7 @@ def download_alphafold_pdb(uniprot_id: str, output_path: str) -> str:
         log.error(f"Error downloading AlphaFold PDB for {uniprot_id}: {e}")
         return ""
 
+
 def get_alphafold_details(uniprot_id: str, prot_name: str) -> dict:
     """Summarise AlphaFold metadata for the provided accession.
 

@@ -9,7 +9,6 @@ import warnings
 from uuid import uuid4
 
 
-
 from Bio import BiopythonDeprecationWarning
 
 import re
@@ -110,7 +109,8 @@ def _find_best_chain_pair(pred_dir: str, exp_path: str) -> Dict[str, Tuple[str, 
             for res in ch
             if res.id[0] == " " and "CA" in res
         }
-        seq = "".join(str(pp.get_sequence()) for pp in pp_builder.build_peptides(ch))
+        seq = "".join(str(pp.get_sequence())
+                      for pp in pp_builder.build_peptides(ch))
         if seq:
             exp_sequences[ch.id] = seq
 
@@ -148,8 +148,10 @@ def _find_best_chain_pair(pred_dir: str, exp_path: str) -> Dict[str, Tuple[str, 
                     shared = sorted(p_ca.keys() & exp_chains[exp_id].keys())
                     if shared:
                         coords_pred = np.array([p_ca[i] for i in shared])
-                        coords_exp = np.array([exp_chains[exp_id][i] for i in shared])
-                        rmsd_val = rms.rmsd(coords_pred, coords_exp, superposition=True)
+                        coords_exp = np.array(
+                            [exp_chains[exp_id][i] for i in shared])
+                        rmsd_val = rms.rmsd(
+                            coords_pred, coords_exp, superposition=True)
                         pairs.append(
                             {
                                 "pred_chain": p_chain.id,
@@ -172,7 +174,8 @@ def _find_best_chain_pair(pred_dir: str, exp_path: str) -> Dict[str, Tuple[str, 
                         continue
                     coords_pred = np.array([p_ca[i] for i in shared])
                     coords_exp = np.array([exp_ca[i] for i in shared])
-                    rmsd_val = rms.rmsd(coords_pred, coords_exp, superposition=True)
+                    rmsd_val = rms.rmsd(
+                        coords_pred, coords_exp, superposition=True)
                     pairs.append(
                         {
                             "pred_chain": p_chain.id,
@@ -214,7 +217,8 @@ def reorder_residues_in_pdb(pdb_input: str, pdb_output: str) -> None:
     with open(pdb_input, "r") as f:
         lines = f.readlines()
 
-    atom_lines = [line for line in lines if line.startswith(("ATOM", "HETATM"))]
+    atom_lines = [
+        line for line in lines if line.startswith(("ATOM", "HETATM"))]
     other_lines = [
         line for line in lines if not line.startswith(("ATOM", "HETATM", "TER"))
     ]
@@ -388,7 +392,8 @@ def _is_fusion_protein(pred_chain, exp_chain) -> bool:
         pred_max = max(
             res.id[1] for res in pred_chain.get_residues() if res.has_id("CA")
         )
-        exp_max = max(res.id[1] for res in exp_chain.get_residues() if res.has_id("CA"))
+        exp_max = max(res.id[1]
+                      for res in exp_chain.get_residues() if res.has_id("CA"))
         return exp_max > pred_max
     except ValueError:  # Empty chain
         return False
@@ -519,7 +524,8 @@ def align_and_patch(
             mapping = _find_best_chain_pair(af_path, exp_path)
             valid = [(k, v) for k, v in mapping.items() if v[0] is not None]
             if not valid:
-                raise RuntimeError("No chain could be paired with experimental model")
+                raise RuntimeError(
+                    "No chain could be paired with experimental model")
 
             pdbid_raw = exp_file.stem.split("_")[-1].upper()
             pdb_url = f"https://www.rcsb.org/structure/{pdbid_raw}"
@@ -560,8 +566,10 @@ def align_and_patch(
             exp_chains = list(exp_structure[0].get_chains())
             exp_chain_ids = [ch.id for ch in exp_chains]
 
-            log.info(f"Experimental structure: {pdbid} with chains {exp_chain_ids}")
-            log.info(f"Partner IDs: {partner_ids} (type: {type(partner_ids).__name__})")
+            log.info(
+                f"Experimental structure: {pdbid} with chains {exp_chain_ids}")
+            log.info(
+                f"Partner IDs: {partner_ids} (type: {type(partner_ids).__name__})")
             if uniprot_id:
                 log.info(f"UniProt ID: {uniprot_id}")
 
@@ -628,7 +636,8 @@ def align_and_patch(
                                 break
                         break
 
-                uA = _trim_chain_to_universe(src_pred, pred_chain, tmpdir, exp_parser)
+                uA = _trim_chain_to_universe(
+                    src_pred, pred_chain, tmpdir, exp_parser)
                 uE = _trim_chain_to_universe(
                     str(exp_file), exp_chain, tmpdir, exp_parser
                 )
@@ -643,7 +652,8 @@ def align_and_patch(
                 if not common:
                     continue
 
-                sel = "protein and name CA and resid " + " ".join(map(str, common))
+                sel = "protein and name CA and resid " + \
+                    " ".join(map(str, common))
 
                 try:
                     align.AlignTraj(
@@ -664,7 +674,8 @@ def align_and_patch(
                 gene_dir.mkdir(parents=True, exist_ok=True)
                 aligned_path = gene_dir / f"aligned_on_{exp_file.name}"
 
-                ag_pred = [uA.select_atoms("protein") for _, _, uA in predicted]
+                ag_pred = [uA.select_atoms("protein")
+                           for _, _, uA in predicted]
 
                 merged = mda.Merge(*ag_pred)
                 merged.atoms.write(str(aligned_path))
@@ -683,7 +694,8 @@ def align_and_patch(
 
                 ids_A = set(uA.select_atoms("name CA").resids)
                 ids_H = set(
-                    hybrid.select_atoms(f"chainID {exp_chain} and name CA").resids
+                    hybrid.select_atoms(
+                        f"chainID {exp_chain} and name CA").resids
                 )
 
                 extras = sorted(ids_A - ids_H)
@@ -711,7 +723,8 @@ def align_and_patch(
                     if not seg.n_atoms:
                         continue
                     _reassign_chain(seg, exp_chain)
-                    hybrid = mda.Merge(hybrid.select_atoms("protein"), seg.atoms)
+                    hybrid = mda.Merge(
+                        hybrid.select_atoms("protein"), seg.atoms)
                     res["patched_atoms"] += seg.n_atoms
                     patched_ranges.append(f"{exp_chain}:{start}-{end}")
 
@@ -725,8 +738,10 @@ def align_and_patch(
             # CORRECTION: For homomers, keep only one chain
             if not res["is_heteromer"] and predicted:
                 # For homomers, keep only the first experimental chain
-                first_exp_chain = predicted[0][1]  # Get the first experimental chain
-                log.info(f"Homomer detected: keeping only chain {first_exp_chain}")
+                # Get the first experimental chain
+                first_exp_chain = predicted[0][1]
+                log.info(
+                    f"Homomer detected: keeping only chain {first_exp_chain}")
                 # Select only atoms from the first chain
                 hybrid.select_atoms(f"protein and chainID {first_exp_chain}").write(
                     str(patched_path)
@@ -770,7 +785,8 @@ def align_and_patch(
                         rmsd_exp_vals.append((rmsd, len(common)))
 
                     # Patched comparison
-                    ref = hybrid.select_atoms(f"chainID {exp_chain} and name CA")
+                    ref = hybrid.select_atoms(
+                        f"chainID {exp_chain} and name CA")
                     ref_map = {a.resid: a.position for a in ref}
                     common = sorted(mob_map.keys() & ref_map.keys())
                     if common:
@@ -797,7 +813,8 @@ def align_and_patch(
             # Final RMSD aggregation
             if rmsd_exp_vals:
                 total = sum(n for _, n in rmsd_exp_vals)
-                res["rmsd_exp"] = round(sum(r * n for r, n in rmsd_exp_vals) / total, 3)
+                res["rmsd_exp"] = round(
+                    sum(r * n for r, n in rmsd_exp_vals) / total, 3)
 
             if rmsd_patch_vals:
                 total = sum(n for _, n in rmsd_patch_vals)

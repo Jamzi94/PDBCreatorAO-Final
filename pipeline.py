@@ -1,4 +1,29 @@
 from __future__ import annotations
+from uniprot import fetch_uniprot_json, find_related_uniprots, parse_uniprot_data
+from structure_repair import fix_structure
+from structure_analysis import (
+    detect_gaps_and_discard_coils,
+    parse_helix_sheet_annotations,
+    parse_small_molecules,
+)
+from pdb_download import download_pdb_structure
+from pdb_details import get_pdb_details
+from oriented import align_structures_by_groups
+from networking import configure_retry, set_http2_mode
+from config import PipelineConfig
+from alphafold import (
+    download_alphafold_pdb,
+    get_alphafold_details,
+    get_alphafold_pdb_info,
+)
+from alignment import align_and_patch
+from openpyxl.styles import Font, PatternFill
+from openpyxl import Workbook, load_workbook
+import pandas as pd
+from typing import Any, Dict, Iterable, List, Optional, Sequence, Set
+from pathlib import Path
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
+import logging
 
 import argparse
 import json
@@ -13,35 +38,10 @@ import numpy as np
 # Suppress widespread BiopythonDeprecationWarning from command-line wrappers
 from Bio import BiopythonDeprecationWarning
 warnings.filterwarnings("ignore", category=BiopythonDeprecationWarning)
-import logging
-from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
-from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Sequence, Set
 
-import pandas as pd
-from openpyxl import Workbook, load_workbook
-from openpyxl.styles import Font, PatternFill
-
-from alignment import align_and_patch
-from alphafold import (
-    download_alphafold_pdb,
-    get_alphafold_details,
-    get_alphafold_pdb_info,
-)
-from config import PipelineConfig
-from networking import configure_retry, set_http2_mode
-from oriented import align_structures_by_groups
-from pdb_details import get_pdb_details
-from pdb_download import download_pdb_structure
-from structure_analysis import (
-    detect_gaps_and_discard_coils,
-    parse_helix_sheet_annotations,
-    parse_small_molecules,
-)
-from structure_repair import fix_structure
-from uniprot import fetch_uniprot_json, find_related_uniprots, parse_uniprot_data
 
 _WORKER_LOG_FILE: Optional[Path] = None
+
 
 def _configure_worker_logging() -> None:
     """Configure logging for worker processes to write to both console and file."""
@@ -56,7 +56,8 @@ def _configure_worker_logging() -> None:
             level=logging.INFO,
             format="%(asctime)s - %(levelname)s - %(message)s",
             handlers=[
-                logging.FileHandler(_WORKER_LOG_FILE, "a", "utf-8"),  # Use append mode
+                logging.FileHandler(_WORKER_LOG_FILE, "a",
+                                    "utf-8"),  # Use append mode
                 logging.StreamHandler(),
             ],
             force=True,
@@ -88,6 +89,7 @@ def _alignment_worker(task: tuple[str, str, str, int, int, str, list[str], str])
 HYP_RE = re.compile(
     r'=?HYPERLINK\(\s*"[^"]*"\s*[;,]\s*"(?P<id>[A-Za-z0-9\-]+)"\s*\)', re.IGNORECASE
 )
+
 
 def extract_pdb_from_cell(cell) -> str:
     """Extract a PDB identifier from an Excel cell."""
@@ -332,7 +334,8 @@ class ProteinPipeline:
             return
 
         worker_count = min(len(ids), self.cfg.max_workers) or 1
-        self.log.info("Using %d worker(s) for UniProt processing", worker_count)
+        self.log.info(
+            "Using %d worker(s) for UniProt processing", worker_count)
         with ThreadPoolExecutor(max_workers=worker_count) as executor:
             future_map = {
                 executor.submit(self._process_uniprot, upid): upid for upid in ids
@@ -481,7 +484,8 @@ class ProteinPipeline:
             repaired = False
             if self.cfg.use_repair or self.cfg.use_pdb_fixer:
                 try:
-                    repaired = fix_structure(pdb_path, pdb_path, auto_install=self.cfg.auto_install_repair)
+                    repaired = fix_structure(
+                        pdb_path, pdb_path, auto_install=self.cfg.auto_install_repair)
                     if repaired:
                         logging.info(f"PDBFixer applied to {pdb_path}")
                 except Exception as e:
@@ -519,10 +523,12 @@ class ProteinPipeline:
 
             details = get_pdb_details(pdb_id)
             pdb_file = out_dir / f"{gene}_{upid}_{pdb_id}.pdb"
-            smalls = parse_small_molecules(str(pdb_file)) if pdb_file.exists() else []
+            smalls = parse_small_molecules(
+                str(pdb_file)) if pdb_file.exists() else []
             pmid = details.get("pubmed_id", "")
             pm_cell = (
-                self._hyperlink(f"https://pubmed.ncbi.nlm.nih.gov/{pmid}", pmid)
+                self._hyperlink(
+                    f"https://pubmed.ncbi.nlm.nih.gov/{pmid}", pmid)
                 if pmid
                 else ""
             )
@@ -577,7 +583,8 @@ class ProteinPipeline:
             str(pred_dir / f"{gene}_{upid}_{pred_id}.pdb"),
         )
         if af_pdb_path:
-            self._set_pdb_source(pred_id or upid, Path(af_pdb_path), "AlphaFold")
+            self._set_pdb_source(
+                pred_id or upid, Path(af_pdb_path), "AlphaFold")
         repaired = False
         if af_pdb_path and (self.cfg.use_repair or self.cfg.use_pdb_fixer):
             pdb_path = Path(af_pdb_path)
@@ -609,7 +616,8 @@ class ProteinPipeline:
             )
             partner_pred = get_alphafold_pdb_info(partner_id)
             if partner_pred:
-                partner_path = pred_dir / f"{gene}_{partner_id}_{partner_pred}.pdb"
+                partner_path = pred_dir / \
+                    f"{gene}_{partner_id}_{partner_pred}.pdb"
                 download_alphafold_pdb(
                     partner_id,
                     str(partner_path),
@@ -673,7 +681,8 @@ class ProteinPipeline:
 
             exp_dir = self.cfg.exp_dir / gene_dir.name
             if not exp_dir.is_dir():
-                self.log.debug("No experimental directory for %s", gene_dir.name)
+                self.log.debug(
+                    "No experimental directory for %s", gene_dir.name)
                 continue
 
             partner_ids = list(self._partner_ids_map.get(gene_dir.name, []))
@@ -737,23 +746,19 @@ class ProteinPipeline:
             if path is not None:
                 self._pdb_source_map[path.stem.upper()] = source
 
-    def _run_multi_reference_orientation(self) -> None:
+    def _prepare_orientation_data(self) -> Optional[tuple[pd.DataFrame, pd.DataFrame]]:
         summary_df = self._data_frames.get("Alignment_Summary")
         details_df = self._data_frames.get("PDB_Details")
+
         if summary_df is None or summary_df.empty:
             self.log.info(
-                "Skipping multi-reference orientation: no alignment summary available"
-            )
-            return
+                "Skipping multi-reference orientation: no alignment summary available")
+            return None
         if details_df is None or details_df.empty:
             self.log.info(
-                "Skipping multi-reference orientation: no PDB details available"
-            )
-            return
+                "Skipping multi-reference orientation: no PDB details available")
+            return None
 
-        self.log.info("Running multi-reference alignment and orientation")
-        
-        # Rename columns to match expected format
         details_df_renamed = details_df.rename(columns={
             'UniProt ID': 'uniprot_id',
             'Gene Name': 'gene_name',
@@ -761,27 +766,28 @@ class ProteinPipeline:
             'Small Molecules': 'small_molecules',
             'PDB Source': 'pdb_source'
         })
-        
+        return summary_df, details_df_renamed
+
+    def _run_orientation(self, summary_df: pd.DataFrame, details_df: pd.DataFrame) -> pd.DataFrame:
+        self.log.info("Running multi-reference alignment and orientation")
         _, df_res = align_structures_by_groups(
-            data_frames={
-                "Alignment_Summary": summary_df,
-                "PDB_Details": details_df_renamed,
-            },
+            data_frames={"Alignment_Summary": summary_df,
+                         "PDB_Details": details_df},
             group_by="gene_name",
             out_root=self.cfg.oriented_dir,
             cfg=self.cfg,
-            orientation_fallback_fn=align_structures_by_groups.__globals__["_orient_with_fallback"],
+            orientation_fallback_fn=align_structures_by_groups.__globals__[
+                "_orient_with_fallback"],
         )
+        return df_res if df_res is not None else pd.DataFrame()
 
-        if df_res is None:
-            df_res = pd.DataFrame()
-
+    def _process_orientation_results(self, df_res: pd.DataFrame) -> None:
         if not df_res.empty:
             df_res["pdb_id"] = df_res["pdb_id"].astype(str)
             df_res["protonated"] = df_res["pdb_id"].map(
                 lambda pid: self._protonation_map.get(str(pid).upper(), False)
             )
-            orientation_map: Dict[str, tuple[Optional[str], Optional[str]]] = {
+            orientation_map = {
                 str(row["pdb_id"]).upper(): (
                     row.get("aligned_path"),
                     row.get("orientation_method"),
@@ -789,50 +795,44 @@ class ProteinPipeline:
                 for row in df_res.to_dict(orient="records")
             }
             df_res["protonated"] = df_res["protonated"].apply(
-                lambda flag: "Yes" if flag else "No"
-            )
+                lambda flag: "Yes" if flag else "No")
         else:
             orientation_map = {}
 
-        methods_by_uniprot: Dict[str, Set[str]] = {}
-        if orientation_map:
+        methods_by_uniprot = {}
+        if self._alignment_summary:
             for record in self._alignment_summary:
                 raw_id = record.get("pdb_id_raw")
                 if isinstance(raw_id, str):
-                    mapping = orientation_map.get(raw_id.upper())
-                    if mapping:
-                        aligned_path, method = mapping
+                    if raw_id.upper() in orientation_map:
+                        aligned_path, method = orientation_map[raw_id.upper()]
                         if aligned_path:
                             record["oriented_pdb"] = aligned_path
                         record["orientation_method"] = method
                     is_protonated = bool(
-                        self._protonation_map.get(raw_id.upper(), False)
-                    )
+                        self._protonation_map.get(raw_id.upper(), False))
                     record["protonated"] = "Yes" if is_protonated else "No"
+
                 uni = record.get("uniprot_id")
                 method = record.get("orientation_method")
                 if isinstance(uni, str) and method:
-                    methods_by_uniprot.setdefault(uni.upper(), set()).add(str(method))
-        elif self._alignment_summary:
-            for record in self._alignment_summary:
-                raw_id = record.get("pdb_id_raw")
-                if isinstance(raw_id, str):
-                    is_protonated = bool(
-                        self._protonation_map.get(raw_id.upper(), False)
-                    )
-                    record["protonated"] = "Yes" if is_protonated else "No"
+                    methods_by_uniprot.setdefault(
+                        uni.upper(), set()).add(str(method))
 
-        if self._alignment_summary:
             self._data_frames["Alignment_Summary"] = pd.DataFrame(
-                self._alignment_summary
-            )
+                self._alignment_summary)
 
-        self._multi_ref_records = (
-            df_res.to_dict(orient="records") if not df_res.empty else []
-        )
-
+        self._multi_ref_records = df_res.to_dict(
+            orient="records") if not df_res.empty else []
         self._update_uniprot_orientation_methods(methods_by_uniprot)
 
+    def _run_multi_reference_orientation(self) -> None:
+        prepared_data = self._prepare_orientation_data()
+        if prepared_data is None:
+            return
+        summary_df, details_df = prepared_data
+        df_res = self._run_orientation(summary_df, details_df)
+        self._process_orientation_results(df_res)
 
     def _update_uniprot_orientation_methods(
         self, methods_by_uniprot: Dict[str, Set[str]]
@@ -914,7 +914,8 @@ class ProteinPipeline:
             except TypeError:
                 return str(value)
         if isinstance(value, (list, tuple, set)):
-            parts = [ProteinPipeline._stringify_for_parquet(item) for item in value]
+            parts = [ProteinPipeline._stringify_for_parquet(
+                item) for item in value]
             return ", ".join(part for part in parts if part)
         if isinstance(value, np.ndarray):
             if value.size == 0:
@@ -936,41 +937,13 @@ class ProteinPipeline:
         return prepared
 
     def _write_parquet(self, df: pd.DataFrame, name: str) -> None:
-        target = self.cfg.parquet_dir / f"{name.replace(' ', '_').lower()}.parquet"
+        target = self.cfg.parquet_dir / \
+            f"{name.replace(' ', '_').lower()}.parquet"
         target.parent.mkdir(parents=True, exist_ok=True)
         self._prepare_parquet_df(df).to_parquet(target, index=False)
         self.log.debug("Wrote %s (%d rows) to %s", name, len(df), target)
 
-    def _export_excel(self) -> None:
-        if not self._data_frames:
-            self.log.warning("No data frames available; skipping Excel export")
-            return
-
-        ordered_names = [
-            "UniProt Results",
-            "PDB_Details",
-            "Structural_Integrity",
-            "Alignment_Summary",
-            "Alignment_RMSD_MultiRef",
-        ]
-
-        entries = [
-            (name, self._data_frames.get(name))
-            for name in ordered_names
-            if self._data_frames.get(name) is not None
-            and not self._data_frames.get(name).empty
-        ]
-
-        if not entries:
-            wb = Workbook()
-            ws = wb.active
-            ws.title = "Summary"
-            ws.append(["message"])
-            ws.append(["No data generated"])
-            wb.save(self.cfg.output_excel)
-            self.log.info("Excel export skipped: no data generated")
-            return
-
+    def _get_excel_writer(self) -> pd.ExcelWriter:
         engine = "xlsxwriter" if self.cfg.use_xlsxwriter else "openpyxl"
         if self.cfg.use_xlsxwriter:
             try:
@@ -981,8 +954,11 @@ class ProteinPipeline:
                     "xlsxwriter not installed, falling back to openpyxl for Excel export."
                 )
                 engine = "openpyxl"
+        return pd.ExcelWriter(self.cfg.output_excel, engine=engine)
+
+    def _write_dataframes_to_excel(self, writer: pd.ExcelWriter, entries: list) -> None:
         try:
-            with pd.ExcelWriter(self.cfg.output_excel, engine=engine) as writer:
+            with writer:
                 for name, df in entries:
                     df.to_excel(writer, sheet_name=name, index=False)
         except (PermissionError, IOError) as exc:
@@ -993,6 +969,7 @@ class ProteinPipeline:
             )
             raise
 
+    def _style_excel_output(self) -> None:
         wb = load_workbook(self.cfg.output_excel)
         for sheet_name, columns in (
             ("UniProt Results", (1, 2)),
@@ -1026,6 +1003,40 @@ class ProteinPipeline:
 
         wb.save(self.cfg.output_excel)
 
+    def _export_excel(self) -> None:
+        if not self._data_frames:
+            self.log.warning("No data frames available; skipping Excel export")
+            return
+
+        ordered_names = [
+            "UniProt Results",
+            "PDB_Details",
+            "Structural_Integrity",
+            "Alignment_Summary",
+            "Alignment_RMSD_MultiRef",
+        ]
+
+        entries = [
+            (name, self._data_frames.get(name))
+            for name in ordered_names
+            if self._data_frames.get(name) is not None
+            and not self._data_frames.get(name).empty
+        ]
+
+        if not entries:
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "Summary"
+            ws.append(["message"])
+            ws.append(["No data generated"])
+            wb.save(self.cfg.output_excel)
+            self.log.info("Excel export skipped: no data generated")
+            return
+
+        writer = self._get_excel_writer()
+        self._write_dataframes_to_excel(writer, entries)
+        self._style_excel_output()
+
     # ------------------------------------------------------------------ #
     # Utilities
     # ------------------------------------------------------------------ #
@@ -1053,11 +1064,15 @@ def build_arg_parser() -> argparse.ArgumentParser:
     """Create the command-line parser for the pipeline CLI."""
     parser = argparse.ArgumentParser("Protein structure pipeline")
     parser.add_argument("--base", default=None, help="Base working directory")
-    parser.add_argument("--input", default=None, help="Path to UniProt input template")
+    parser.add_argument("--input", default=None,
+                        help="Path to UniProt input template")
     parser.add_argument("--output", default=None, help="Output Excel filename")
-    parser.add_argument("--window", type=int, default=5, help="Sliding window size")
-    parser.add_argument("-v", "--verbose", action="store_true", help="Verbose logging")
-    parser.add_argument("--ids", nargs="+", help="Process explicit UniProt IDs")
+    parser.add_argument("--window", type=int, default=5,
+                        help="Sliding window size")
+    parser.add_argument("-v", "--verbose",
+                        action="store_true", help="Verbose logging")
+    parser.add_argument("--ids", nargs="+",
+                        help="Process explicit UniProt IDs")
     return parser
 
 
@@ -1071,7 +1086,8 @@ def main() -> None:
         output_excel=args.output,
         window=args.window,
     )
-    pipeline = ProteinPipeline(config=config, ids=args.ids, verbose=args.verbose)
+    pipeline = ProteinPipeline(
+        config=config, ids=args.ids, verbose=args.verbose)
     pipeline.run()
 
 

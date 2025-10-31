@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+build/
+dist/
+*.egg-info/
+*.log
+*.xlsx

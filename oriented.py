@@ -33,18 +33,21 @@ from MDAnalysis.exceptions import SelectionWarning
 # --- Constantes & expressions régulières ---
 DUM_RE = re.compile(r"\bDUM\b", re.IGNORECASE)
 
+
 @dataclass
 class OrientationMetadata:
     """Métadonnées d'orientation d'une structure PDB."""
     source: str  # 'OPM', 'PDBTM', 'RCSB'
-    reference_id: Optional[str] = None  # ID PDB de la structure de référence utilisée
+    # ID PDB de la structure de référence utilisée
+    reference_id: Optional[str] = None
     ref_uniprot: Optional[str] = None  # UniProt ID de la référence
     convention: str = "+Z=extra"  # Convention d'orientation
-    transform_matrix: Optional[np.ndarray] = None  # Matrice 4x4 de transformation
+    # Matrice 4x4 de transformation
+    transform_matrix: Optional[np.ndarray] = None
     rmsd_before: Optional[float] = None  # RMSD avant alignement
     rmsd_after: Optional[float] = None  # RMSD après alignement
     z_flipped: bool = False  # Si un flip en Z a été appliqué
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convertit les métadonnées en dictionnaire pour stockage."""
         d = {
@@ -79,6 +82,7 @@ class OrientationMetadata:
             z_flipped=d.get("z_flipped", False)
         )
 
+
 # --- Configuration du logging ---
 logger = logging.getLogger(__name__)
 warnings.filterwarnings("ignore", category=SelectionWarning)
@@ -104,8 +108,7 @@ def _superimpose_worker(
     _configure_worker_logging()
     warnings.filterwarnings("ignore", category=SelectionWarning)
     warnings.filterwarnings("ignore", category=BiopythonDeprecationWarning)
-    
-    
+
     idx, ref_path_str, out_root_str, pdb_id, gene, uniprot, patched_pdb = args
     try:
         pdb_path = Path(patched_pdb)
@@ -116,8 +119,10 @@ def _superimpose_worker(
         ref_struct = _load_structure(Path(ref_path_str))
         tgt_struct = _load_structure(pdb_path)
 
-        ref_atoms = [a for a in ref_struct[0].get_atoms() if a.get_id() == "CA"]
-        tgt_atoms = [a for a in tgt_struct[0].get_atoms() if a.get_id() == "CA"]
+        ref_atoms = [a for a in ref_struct[0].get_atoms()
+                     if a.get_id() == "CA"]
+        tgt_atoms = [a for a in tgt_struct[0].get_atoms()
+                     if a.get_id() == "CA"]
         n = min(len(ref_atoms), len(tgt_atoms))
         if n == 0:
             logger.warning("No CA atoms in common for %s", pdb_id)
@@ -125,7 +130,8 @@ def _superimpose_worker(
 
         ref_coords = np.array([a.get_coord() for a in ref_atoms[:n]])
         tgt_coords = np.array([a.get_coord() for a in tgt_atoms[:n]])
-        rms_before = float(np.sqrt(((ref_coords - tgt_coords) ** 2).sum(axis=1).mean()))
+        rms_before = float(
+            np.sqrt(((ref_coords - tgt_coords) ** 2).sum(axis=1).mean()))
 
         sup = Superimposer()
         sup.set_atoms(ref_atoms[:n], tgt_atoms[:n])
@@ -150,30 +156,29 @@ def _superimpose_worker(
         return idx, None
 
 
-
 def _choose_native_reference(
     df_group: pd.DataFrame,
     source_map: Dict[str, str],
     cfg: PipelineConfig
 ) -> tuple[Optional[str], OrientationMetadata]:
     """Sélectionne la meilleure référence native pour un groupe UniProt.
-    
+
     Args:
         df_group: DataFrame avec les structures d'un même groupe UniProt
         source_map: Dictionnaire {pdb_id: source}
         cfg: Configuration avec les préférences de sources natives
-    
+
     Returns:
         tuple[str | None, OrientationMetadata]: (ID PDB de référence, métadonnées)
     """
     # Vérifie si le DataFrame est vide
     if df_group.empty:
         return None, OrientationMetadata(source="none")
-        
+
     # Ajoute la source dans le DataFrame pour faciliter la sélection
     df_group = df_group.copy()
     df_group["source"] = df_group["pdb_id"].map(source_map)
-    
+
     # Cherche d'abord une référence déjà orientée selon la priorité des sources
     for source in cfg.native_source_priority:
         source_structures = df_group[df_group["source"] == source]
@@ -185,7 +190,8 @@ def _choose_native_reference(
                 ref_uniprot=chosen_row["uniprot_id"],
                 convention="+Z=extra"  # Convention par défaut pour OPM/PDBTM
             )
-            logger.info(f"Found native reference from {source}: {chosen_row['pdb_id']}")
+            logger.info(
+                f"Found native reference from {source}: {chosen_row['pdb_id']}")
             return chosen_row["pdb_id"], metadata
         for _, row in df_group.iterrows():
             pid = row["pdb_id"]
@@ -197,11 +203,11 @@ def _choose_native_reference(
                     convention="+Z=extra"  # Convention par défaut pour OPM/PDBTM
                 )
                 return pid, metadata
-                
+
     # Si on n'a pas trouvé de référence native et qu'on en exige une
     if cfg.require_native_reference:
         return None, OrientationMetadata(source="none")
-        
+
     # Sinon on prend la première structure comme référence
     if not df_group.empty:
         pid = df_group.iloc[0]["pdb_id"]
@@ -213,7 +219,7 @@ def _choose_native_reference(
             convention="+Z=extra"  # On appliquera la convention standard
         )
         return pid, metadata
-        
+
     return None, OrientationMetadata(source="none")
 
 
@@ -227,9 +233,10 @@ def _find_tm_residues(structure) -> List[int]:
     tm_indices = [i for i, z in enumerate(z_coords) if abs(z - z_mean) < 15.0]
     return tm_indices
 
+
 def _align_to_reference(ref_path: Path, target_path: Path, out_path: Path) -> tuple[float, float, bool, np.ndarray]:
     """Aligne la structure cible sur la référence en utilisant les CA des résidus TM.
-    
+
     Returns:
         tuple[float, float, bool, np.ndarray]: (RMSD avant, RMSD après, flip Z appliqué, matrice)
     """
@@ -238,21 +245,27 @@ def _align_to_reference(ref_path: Path, target_path: Path, out_path: Path) -> tu
 
     ref_tm_indices = _find_tm_residues(ref_struct)
     tgt_tm_indices = _find_tm_residues(tgt_struct)
-    
-    ref_atoms = [a for i, a in enumerate(ref_struct[0].get_atoms()) if a.get_id() == "CA" and i in ref_tm_indices]
-    tgt_atoms = [a for i, a in enumerate(tgt_struct[0].get_atoms()) if a.get_id() == "CA" and i in tgt_tm_indices]
+
+    ref_atoms = [a for i, a in enumerate(
+        ref_struct[0].get_atoms()) if a.get_id() == "CA" and i in ref_tm_indices]
+    tgt_atoms = [a for i, a in enumerate(
+        tgt_struct[0].get_atoms()) if a.get_id() == "CA" and i in tgt_tm_indices]
     n = min(len(ref_atoms), len(tgt_atoms))
     if n < 10:  # On demande au moins 10 résidus TM en commun
-        ref_atoms = [a for a in ref_struct[0].get_atoms() if a.get_id() == "CA"]
-        tgt_atoms = [a for a in tgt_struct[0].get_atoms() if a.get_id() == "CA"]
+        ref_atoms = [a for a in ref_struct[0].get_atoms()
+                     if a.get_id() == "CA"]
+        tgt_atoms = [a for a in tgt_struct[0].get_atoms()
+                     if a.get_id() == "CA"]
         n = min(len(ref_atoms), len(tgt_atoms))
-        logger.warning(f"Pas assez de résidus TM en commun pour {target_path.name}, utilisation de tous les CA")
+        logger.warning(
+            f"Pas assez de résidus TM en commun pour {target_path.name}, utilisation de tous les CA")
     if n == 0:
         raise ValueError(f"No CA atoms in common for {target_path.name}")
 
     ref_coords = np.array([a.get_coord() for a in ref_atoms[:n]])
     tgt_coords = np.array([a.get_coord() for a in tgt_atoms[:n]])
-    rms_before = float(np.sqrt(((ref_coords - tgt_coords) ** 2).sum(axis=1).mean()))
+    rms_before = float(
+        np.sqrt(((ref_coords - tgt_coords) ** 2).sum(axis=1).mean()))
 
     # Premier alignement
     sup = Superimposer()
@@ -264,12 +277,14 @@ def _align_to_reference(ref_path: Path, target_path: Path, out_path: Path) -> tu
     # Test du flip Z
     flipped_coords = tgt_coords.copy()
     flipped_coords[:, 2] *= -1  # Flip selon Z
-    rms_flipped = float(np.sqrt(((ref_coords - flipped_coords) ** 2).sum(axis=1).mean()))
-    
+    rms_flipped = float(
+        np.sqrt(((ref_coords - flipped_coords) ** 2).sum(axis=1).mean()))
+
     z_flipped = False
     if rms_flipped < rms_after:
         # Le flip Z améliore l'alignement
-        logger.info(f"Applying Z-flip to {target_path.name} (RMSD: {rms_after:.3f} -> {rms_flipped:.3f})")
+        logger.info(
+            f"Applying Z-flip to {target_path.name} (RMSD: {rms_after:.3f} -> {rms_flipped:.3f})")
         for atom in tgt_struct.get_atoms():
             coords = atom.get_coord()
             coords[2] *= -1
@@ -286,7 +301,8 @@ def _align_to_reference(ref_path: Path, target_path: Path, out_path: Path) -> tu
     io.set_structure(tgt_struct)
     io.save(str(out_path))
 
-    logger.info("Aligned %s onto %s -> %s", target_path.name, ref_path.name, out_path)
+    logger.info("Aligned %s onto %s -> %s",
+                target_path.name, ref_path.name, out_path)
     return rms_before, rms_after, z_flipped, transform_matrix
 
 
@@ -311,7 +327,6 @@ def _orient_with_fallback(
 
     from structure_repair import (
         orient_with_memembed,
-        orient_with_memprotmd_cached,
         orient_with_pdbtm_cached,
         orient_with_ppm,
         orient_with_principal_axes,
@@ -321,7 +336,6 @@ def _orient_with_fallback(
     # Define all available services and their handlers
     all_services = {
         "pdbtm": lambda dest: orient_with_pdbtm_cached(service_code("pdbtm"), pdb_path, dest),
-        "memprotmd": lambda dest: orient_with_memprotmd_cached(service_code("memprotmd"), pdb_path, dest),
         "ppm": lambda dest: orient_with_ppm(pdb_path, dest, cfg.ppm_path),
         "memembed": lambda dest: orient_with_memembed(pdb_path, dest),
         "tmdet": lambda dest: orient_with_tmdet(pdb_path, dest),
@@ -330,17 +344,18 @@ def _orient_with_fallback(
 
     # Build the list of enabled strategies based on native source preferences
     enabled_strategies: list[str] = []
-    
+
     # First try native sources in order of preference if enabled
     if cfg.prefer_native_sources:
-        native_sources = {"pdbtm"}  # Since we've removed direct PDBTM/OPM fetching
-        
+        # Since we've removed direct PDBTM/OPM fetching
+        native_sources = {"pdbtm"}
+
         # Start with native sources according to priority
         for source in native_sources:
             conf = SERVICE_CONFIG.get(source)
             if not conf or conf.enabled:
                 enabled_strategies.append(source)
-                
+
         # If native sources are required and we found some, stop here
         if cfg.require_native_reference and enabled_strategies:
             logging.info("Using only native sources: %s", enabled_strategies)
@@ -359,7 +374,7 @@ def _orient_with_fallback(
             if not conf or conf.enabled:
                 if name != "ppm" or cfg.ppm_path:  # Special PPM check
                     enabled_strategies.append(name)
-                    
+
     # Determine the final order of execution based on config
     final_order: list[str] = []
     if bool(getattr(cfg, "enable_new_orientation_services", False)):
@@ -386,11 +401,13 @@ def _orient_with_fallback(
     # Execute strategies in the determined order
     for service_name in final_order:
         handler = all_services[service_name]
-        oriented_path = out_dir / f"{pdb_path.stem}_oriented_{service_name}.pdb"
+        oriented_path = out_dir / \
+            f"{pdb_path.stem}_oriented_{service_name}.pdb"
         try:
             meta = handler(oriented_path)
         except Exception as exc:
-            logging.error("%s orientation failed for %s: %s", service_name.upper(), raw_code.upper(), exc)
+            logging.error("%s orientation failed for %s: %s",
+                          service_name.upper(), raw_code.upper(), exc)
             continue
 
         if meta and oriented_path.is_file() and oriented_path.stat().st_size > 0:
@@ -453,7 +470,8 @@ def superimpose_structures(
     results = []
     max_workers = os.cpu_count() or 1
     with ProcessPoolExecutor(max_workers=max_workers) as executor:
-        future_map = {executor.submit(_superimpose_worker, task): task for task in tasks}
+        future_map = {executor.submit(
+            _superimpose_worker, task): task for task in tasks}
         for future in as_completed(future_map):
             try:
                 _, res = future.result()
@@ -507,7 +525,8 @@ def find_dum_references(
     references = {}
 
     if "small_molecules" not in df_det.columns:
-        logger.warning("Colonne 'small_molecules' non trouvée, impossible de détecter DUM")
+        logger.warning(
+            "Colonne 'small_molecules' non trouvée, impossible de détecter DUM")
         return references
 
     # Pour chaque groupe, trouve une référence avec DUM
@@ -522,11 +541,12 @@ def find_dum_references(
         if dum_mask.any():
             # Prend la première structure avec DUM comme référence
             ref_id = group_df.loc[dum_mask, "pdb_id"].iloc[0]
-            references[group] = ref_id            
-            logger.info(f"Groupe {group}: référence avec DUM trouvée: {ref_id}")
+            references[group] = ref_id
+            logger.info(
+                f"Groupe {group}: référence avec DUM trouvée: {ref_id}")
         else:
             logger.info(f"Groupe {group}: aucune référence avec DUM trouvée")
-            
+
     return references
 
 
@@ -543,13 +563,15 @@ def get_oriented_path(
     suffix = "_native" if metadata.source in ("OPM", "PDBTM") else ""
     return subdir / f"oriented_{group}_{uniprot}_{pdb_id}{suffix}.pdb"
 
+
 def align_structures_by_groups(
     excel_file: Optional[Path | str] = None,
     group_by: str = "gene_name",
     out_root: Optional[Path | str] = None,
     data_frames: Optional[Mapping[str, pd.DataFrame]] = None,
     cfg: Optional[PipelineConfig] = None,
-    orientation_fallback_fn: Optional[Callable[[str, Path, Path, PipelineConfig], Tuple[Optional[Path], str]]] = None,
+    orientation_fallback_fn: Optional[Callable[[
+        str, Path, Path, PipelineConfig], Tuple[Optional[Path], str]]] = None,
 ) -> tuple[Dict[str, List[tuple]], pd.DataFrame]:
     """Align patched structures within groups using DUM references.
 
@@ -589,10 +611,12 @@ def align_structures_by_groups(
             raise ValueError("excel_file or data_frames must be provided")
         excel_path = Path(excel_file)
         df_det_all = _prepare_dataframe(load_sheet(excel_path, "PDB_Details"))
-        df_ali_all = _prepare_dataframe(load_sheet(excel_path, "Alignment_Summary"))
+        df_ali_all = _prepare_dataframe(
+            load_sheet(excel_path, "Alignment_Summary"))
 
     out_root_path = (
-        Path(out_root) if out_root is not None else Path("pdb_structures_oriented")
+        Path(out_root) if out_root is not None else Path(
+            "pdb_structures_oriented")
     )
     out_root_path.mkdir(parents=True, exist_ok=True)
 
@@ -606,18 +630,21 @@ def align_structures_by_groups(
     required_cols = {"pdb_id", group_by, "small_molecules"}
     missing = required_cols - set(df_det_all.columns)
     if missing:
-        logger.error(f"Colonnes requises manquantes dans PDB_Details: {missing}")
+        logger.error(
+            f"Colonnes requises manquantes dans PDB_Details: {missing}")
         return {}, pd.DataFrame()
 
     if "patched_pdb" not in df_ali_all.columns:
-        logger.error("Colonne 'patched_pdb' non trouvée dans Alignment_Summary")
+        logger.error(
+            "Colonne 'patched_pdb' non trouvée dans Alignment_Summary")
         return {}, pd.DataFrame()
 
     groups = group_structures_by_attribute(df_det_all, group_by)
     logger.info(f"Grouped structures by {group_by}: {len(groups)} groups")
 
     references = find_dum_references(df_det_all, groups)
-    logger.info(f"Found DUM references for {len(references)}/{len(groups)} groups")
+    logger.info(
+        f"Found DUM references for {len(references)}/{len(groups)} groups")
 
     source_map: Dict[str, str] = {}
     if "pdb_source" in df_det_all.columns:
@@ -626,18 +653,20 @@ def align_structures_by_groups(
             for _, row in df_det_all.iterrows()
             if pd.notna(row.get("pdb_id"))
         }
-        
+
     # Ensure we have required columns with valid data
-    missing_data = df_det_all[["pdb_id", "gene_name", "uniprot_id"]].isna().any(axis=1)
+    missing_data = df_det_all[["pdb_id", "gene_name",
+                               "uniprot_id"]].isna().any(axis=1)
     if missing_data.any():
-        logger.warning(f"Missing required data for {missing_data.sum()} structures")
+        logger.warning(
+            f"Missing required data for {missing_data.sum()} structures")
         # Fill missing gene_name with uniprot_id if available
-        mask = df_det_all["gene_name"].isna() & df_det_all["uniprot_id"].notna()
+        mask = df_det_all["gene_name"].isna(
+        ) & df_det_all["uniprot_id"].notna()
         df_det_all.loc[mask, "gene_name"] = df_det_all.loc[mask, "uniprot_id"]
 
     all_results: Dict[str, List[tuple]] = {}
     all_aligned_results: List[tuple] = []
-    orientation_metadata: Dict[str, OrientationMetadata] = {}
 
     # Helper function for consistent file naming
     def get_oriented_path(group: str, uniprot: str, pdb_id: str, metadata: OrientationMetadata) -> Path:
@@ -650,27 +679,34 @@ def align_structures_by_groups(
     for group, pdb_ids in groups.items():
         # Get group-specific data
         group_df = df_det_all[df_det_all["pdb_id"].isin(pdb_ids)].copy()
-        
+
         # Find native references
-        native_ids = [pid for pid in pdb_ids if source_map.get(pid) in {"OPM", "PDBTM"}]
-        preferred_native, native_metadata = _choose_native_reference(group_df, source_map, cfg) if native_ids else (None, OrientationMetadata(source="none"))
+        native_ids = [pid for pid in pdb_ids if source_map.get(pid) in {
+            "OPM", "PDBTM"}]
+        preferred_native, native_metadata = _choose_native_reference(
+            group_df, source_map, cfg) if native_ids else (None, OrientationMetadata(source="none"))
 
         native_done = False
 
         if preferred_native:
             ref_row = df_ali_all[df_ali_all["pdb_id"] == preferred_native]
             if ref_row.empty:
-                logger.warning("Native reference %s missing from Alignment_Summary; skipping group %s", preferred_native, group)
+                logger.warning(
+                    "Native reference %s missing from Alignment_Summary; skipping group %s", preferred_native, group)
             else:
-                det_row_native = df_det_all[df_det_all["pdb_id"] == preferred_native]
+                det_row_native = df_det_all[df_det_all["pdb_id"]
+                                            == preferred_native]
                 if det_row_native.empty:
-                    logger.warning("Native reference %s missing from PDB_Details; skipping group %s", preferred_native, group)
+                    logger.warning(
+                        "Native reference %s missing from PDB_Details; skipping group %s", preferred_native, group)
                 else:
                     gene_native = det_row_native.iloc[0].get("gene_name", "")
-                    uniprot_native = det_row_native.iloc[0].get("uniprot_id", "") or ""
+                    uniprot_native = det_row_native.iloc[0].get(
+                        "uniprot_id", "") or ""
                     if gene_native:
                         ref_path = Path(ref_row.iloc[0]["patched_pdb"])
-                        out_dir = out_root_path / f"{gene_native}_{uniprot_native}"
+                        out_dir = out_root_path / \
+                            f"{gene_native}_{uniprot_native}"
                         out_dir.mkdir(parents=True, exist_ok=True)
                         ref_source = source_map.get(preferred_native, "Native")
                         native_done = True
@@ -679,28 +715,33 @@ def align_structures_by_groups(
                             if row.empty:
                                 continue
                             det_row = df_det_all[df_det_all["pdb_id"] == pid]
-                            gene = det_row.iloc[0].get("gene_name", gene_native) if not det_row.empty else gene_native
-                            uniprot = det_row.iloc[0].get("uniprot_id", uniprot_native) if not det_row.empty else uniprot_native
+                            gene = det_row.iloc[0].get(
+                                "gene_name", gene_native) if not det_row.empty else gene_native
+                            uniprot = det_row.iloc[0].get(
+                                "uniprot_id", uniprot_native) if not det_row.empty else uniprot_native
                             if not gene:
                                 continue
                             target_path = Path(row.iloc[0]["patched_pdb"])
-                            out_path = out_dir / f"oriented_{gene}_{uniprot}_{pid}_native.pdb"
+                            out_path = out_dir / \
+                                f"oriented_{gene}_{uniprot}_{pid}_native.pdb"
                             if pid == preferred_native:
                                 shutil.copy(ref_path, out_path)
                                 rms_before = rms_after = None
                             else:
                                 try:
-                                    rms_before, rms_after, z_flipped, transform = _align_to_reference(ref_path, target_path, out_path)
+                                    rms_before, rms_after, z_flipped, transform = _align_to_reference(
+                                        ref_path, target_path, out_path)
                                 except Exception as exc:
-                                    logger.error("Native alignment failed for %s: %s", pid, exc)
+                                    logger.error(
+                                        "Native alignment failed for %s: %s", pid, exc)
                                     native_done = False
                                     break
                             method_source = source_map.get(pid, ref_source)
                             method = f"Native_{method_source}" if method_source else "Native"
-                            all_aligned_results.append((pid, str(out_path), rms_before, rms_after, method))
+                            all_aligned_results.append(
+                                (pid, str(out_path), rms_before, rms_after, method))
                         if native_done:
                             continue
-
 
         ref_id = references.get(group)
 
@@ -708,19 +749,22 @@ def align_structures_by_groups(
             # Try to find a native reference (OPM/PDBTM) first
             source_map = {}
             for pid in pdb_ids:
-                source = df_det_all.loc[df_det_all["pdb_id"] == pid, "pdb_source"].iloc[0] if not df_det_all[df_det_all["pdb_id"] == pid].empty else ""
+                source = df_det_all.loc[df_det_all["pdb_id"] == pid,
+                                        "pdb_source"].iloc[0] if not df_det_all[df_det_all["pdb_id"] == pid].empty else ""
                 if source:
                     source_map[pid] = source
-                    
+
             # Get group-specific data for native reference selection
             group_df = df_det_all[df_det_all["pdb_id"].isin(pdb_ids)].copy()
-            native_ref_id, native_metadata = _choose_native_reference(group_df, source_map, cfg)
-            
+            native_ref_id, native_metadata = _choose_native_reference(
+                group_df, source_map, cfg)
+
             if native_ref_id:
                 # Use native reference first if available
-                logger.info(f"Processing group {group} with native reference {native_ref_id} (source: {native_metadata.source})")
+                logger.info(
+                    f"Processing group {group} with native reference {native_ref_id} (source: {native_metadata.source})")
                 ref_id = native_ref_id
-            
+
             ref_row = df_ali_all[df_ali_all["pdb_id"] == ref_id]
             if ref_row.empty:
                 logger.warning(
@@ -747,7 +791,8 @@ def align_structures_by_groups(
                     on="pdb_id",
                     how="left",
                 )
-                uniprot_cols = [c for c in df_targets.columns if c.startswith("uniprot_id")]
+                uniprot_cols = [
+                    c for c in df_targets.columns if c.startswith("uniprot_id")]
                 if uniprot_cols:
                     df_targets["uniprot_id"] = (
                         df_targets[uniprot_cols]
@@ -757,9 +802,11 @@ def align_structures_by_groups(
                     extra_cols = [c for c in uniprot_cols if c != "uniprot_id"]
                     if extra_cols:
                         df_targets = df_targets.drop(columns=extra_cols)
-                df_targets = df_targets.dropna(subset=["patched_pdb"], how="any")
+                df_targets = df_targets.dropna(
+                    subset=["patched_pdb"], how="any")
                 if not df_targets.empty:
-                    results = superimpose_structures(ref_path, df_targets, out_root_path)
+                    results = superimpose_structures(
+                        ref_path, df_targets, out_root_path)
                     for res_tuple in results:
                         # Record whether it was aligned to a native reference or DUM reference
                         method = f"Aligned_to_{source_map.get(ref_id)}" if ref_id in source_map else "DUM_Ref"
@@ -785,7 +832,8 @@ def align_structures_by_groups(
 
         elif cfg.use_orientation_fallback and orientation_fallback_fn:
             # --- No DUM Reference: Fallback Orientation ---
-            logger.info(f"No DUM reference for group {group}. Attempting to create one with fallback.")
+            logger.info(
+                f"No DUM reference for group {group}. Attempting to create one with fallback.")
 
             new_ref_path: Optional[Path] = None
             new_ref_id: Optional[str] = None
@@ -809,18 +857,20 @@ def align_structures_by_groups(
                 uniprot = det_row.iloc[0].get("uniprot_id", "") or ""
                 if not gene:
                     continue
-                
+
                 out_dir = out_root_path / f"{gene}_{uniprot}"
                 out_dir.mkdir(parents=True, exist_ok=True)
 
                 # Use the provided fallback function to orient this candidate reference
-                oriented_path, method = orientation_fallback_fn(candidate_ref_id, pdb_path, out_dir, cfg)
+                oriented_path, method = orientation_fallback_fn(
+                    candidate_ref_id, pdb_path, out_dir, cfg)
 
                 if oriented_path:
                     new_ref_path = oriented_path
                     new_ref_id = candidate_ref_id
                     method_used = method
-                    logger.info(f"Group {group}: created new reference {new_ref_id} using {method_used}.")
+                    logger.info(
+                        f"Group {group}: created new reference {new_ref_id} using {method_used}.")
                     all_aligned_results.append(
                         (new_ref_id, str(new_ref_path), None, None, method_used)
                     )
@@ -836,17 +886,23 @@ def align_structures_by_groups(
                         on="pdb_id",
                         how="left",
                     )
-                    uniprot_cols = [c for c in df_targets.columns if c.startswith("uniprot_id")]
+                    uniprot_cols = [
+                        c for c in df_targets.columns if c.startswith("uniprot_id")]
                     if uniprot_cols:
-                        df_targets["uniprot_id"] = df_targets[uniprot_cols].bfill(axis=1).iloc[:, 0]
-                        extra_cols = [c for c in uniprot_cols if c != "uniprot_id"]
+                        df_targets["uniprot_id"] = df_targets[uniprot_cols].bfill(
+                            axis=1).iloc[:, 0]
+                        extra_cols = [
+                            c for c in uniprot_cols if c != "uniprot_id"]
                         if extra_cols:
                             df_targets = df_targets.drop(columns=extra_cols)
-                    df_targets = df_targets.dropna(subset=["patched_pdb"], how="any")
+                    df_targets = df_targets.dropna(
+                        subset=["patched_pdb"], how="any")
                     if not df_targets.empty:
-                        results = superimpose_structures(new_ref_path, df_targets, out_root_path)
+                        results = superimpose_structures(
+                            new_ref_path, df_targets, out_root_path)
                         for res_tuple in results:
-                            all_aligned_results.append(res_tuple + (f"Fallback_Ref_{method_used}",))
+                            all_aligned_results.append(
+                                res_tuple + (f"Fallback_Ref_{method_used}",))
             else:
                 logger.warning(
                     f"Could not create a fallback reference for group {group}. "
@@ -878,8 +934,10 @@ def align_structures_by_groups(
         with pd.ExcelWriter(
             excel_path, engine="openpyxl", mode="a", if_sheet_exists="replace"
         ) as writer:
-            df_res.to_excel(writer, sheet_name="Alignment_RMSD_MultiRef", index=False)
-        logger.info(f"Results saved to 'Alignment_RMSD_MultiRef' in {excel_path}")
+            df_res.to_excel(
+                writer, sheet_name="Alignment_RMSD_MultiRef", index=False)
+        logger.info(
+            f"Results saved to 'Alignment_RMSD_MultiRef' in {excel_path}")
 
     return all_results, df_res
 

@@ -13,7 +13,6 @@ import warnings
 from typing import List, Tuple
 
 
-
 from Bio import BiopythonDeprecationWarning
 
 from Bio.PDB import PDBParser

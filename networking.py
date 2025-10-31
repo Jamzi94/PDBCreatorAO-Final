@@ -29,7 +29,8 @@ def set_http2_mode(use_http2: bool) -> None:
     """Set the global HTTP/2 mode for networking (for pipeline integration)."""
     global _USE_HTTP2
     if use_http2 and not HTTPX_AVAILABLE:
-        log.warning("HTTP/2 requested but httpx is not installed. Falling back to HTTP/1.1.")
+        log.warning(
+            "HTTP/2 requested but httpx is not installed. Falling back to HTTP/1.1.")
         _USE_HTTP2 = False
     else:
         _USE_HTTP2 = use_http2
@@ -40,7 +41,8 @@ def _build_httpx_client(attempts: int, backoff: float, status: Tuple[int, ...]) 
     if not HTTPX_AVAILABLE:
         raise ImportError("httpx is not installed.")
     limits = httpx.Limits(max_connections=100, max_keepalive_connections=20)
-    transport = httpx.HTTPTransport(retries=attempts, http2=_USE_HTTP2, limits=limits)
+    transport = httpx.HTTPTransport(
+        retries=attempts, http2=_USE_HTTP2, limits=limits)
     client = httpx.Client(http2=_USE_HTTP2, transport=transport, timeout=30.0)
     return client
 
@@ -53,7 +55,8 @@ def _build_session(attempts: int, backoff: float, status: Tuple[int, ...]) -> Se
         allowed_methods=("GET", "POST"),
         raise_on_status=False,
     )
-    adapter = HTTPAdapter(pool_connections=20, pool_maxsize=100, max_retries=retry)
+    adapter = HTTPAdapter(pool_connections=20,
+                          pool_maxsize=100, max_retries=retry)
     session = Session()
     session.mount("https://", adapter)
     session.mount("http://", adapter)
@@ -90,13 +93,17 @@ def get_session(
     Returns:
         Session | httpx.Client: Shared session instance with the configured retry policy.
     """
-    resolved_attempts = max(1, attempts) if attempts is not None else _DEFAULT_ATTEMPTS
-    resolved_backoff = max(0.0, backoff) if backoff is not None else _DEFAULT_BACKOFF
+    resolved_attempts = max(
+        1, attempts) if attempts is not None else _DEFAULT_ATTEMPTS
+    resolved_backoff = max(
+        0.0, backoff) if backoff is not None else _DEFAULT_BACKOFF
     resolved_status = (
-        tuple(int(code) for code in status) if status is not None else _DEFAULT_STATUS
+        tuple(int(code)
+              for code in status) if status is not None else _DEFAULT_STATUS
     )
     use_http2 = _USE_HTTP2
-    cache_key = (resolved_attempts, resolved_backoff, resolved_status, use_http2)
+    cache_key = (resolved_attempts, resolved_backoff,
+                 resolved_status, use_http2)
     session = _SESSION_CACHE.get(cache_key)
     if session is None:
         if use_http2:
@@ -111,4 +118,5 @@ def get_session(
     return session
 
 
-__all__ = ["configure_retry", "get_session", "HTTPX_AVAILABLE", "set_http2_mode"]
+__all__ = ["configure_retry", "get_session",
+           "HTTPX_AVAILABLE", "set_http2_mode"]

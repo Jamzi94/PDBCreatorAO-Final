@@ -222,4 +222,3 @@ def parse_uniprot_data(data: dict) -> dict:
         "sequence": sequence,
         "interaction_partners": related_ids,
     }
-
