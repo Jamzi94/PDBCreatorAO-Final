@@ -10,3 +10,5 @@ pyarrow
 httpx[http2]
 xlsxwriter
 openmm
+beautifulsoup4
+lxml
